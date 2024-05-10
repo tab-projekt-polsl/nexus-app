@@ -1,7 +1,9 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../connection";
+import Address from "./address";
+import Object from "./object";
 
-class Client extends Model {}
+export default class Client extends Model {}
 
 Client.init(
     {
@@ -27,5 +29,16 @@ Client.init(
             type: DataTypes.INTEGER.UNSIGNED,
         }
     },
-    { sequelize },  // TODO: check if connection was successfull
+    { sequelize, modelName: 'client'},
 );
+
+// define associations
+Client.hasOne(Address, {
+    onDelete: 'CASCADE',
+});
+Address.belongsTo(Client);
+
+Client.hasMany(Object, {
+    foreignKey: 'clientId',
+});
+Object.belongsTo(Client);
