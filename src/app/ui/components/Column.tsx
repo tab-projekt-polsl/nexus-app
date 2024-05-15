@@ -13,8 +13,10 @@ export default function Column(
   props: Props,
 ) {
   return (
-    <div className="artboard phone-6 bg-base-200">
+
+    <div className="rounded-lg artboard phone-5 bg-base-200 overflow-auto mt-6">
       {children}
     </div>
+ 
   );
 }
