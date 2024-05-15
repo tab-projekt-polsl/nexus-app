@@ -2,10 +2,17 @@ import Image from "next/image";
 import RequestCard from "./ui/components/RequestCard";
 import Column from "./ui/components/Column";
 import RequestBoard from "./ui/components/RequestBoard";
+import ActivityBoard from "./ui/components/ActivityBoard";
 
 const requests: Array<RequestObj> = [
   { name: "card1", description: "desc1" },
   { name: "card2", description: "desc2" },
+  { name: "card3", description: "desc3" },
+  { name: "card4", description: "desc4" },
+  { name: "card5", description: "desc5" },
+  { name: "card6", description: "desc6" },
+  { name: "card7", description: "desc7" },
+  { name: "card8", description: "desc8" },
 ];
 
 
@@ -19,7 +26,8 @@ export default async function Home() {
         </p>
         {/* <RequestCard name="WWWWW" description="Desc"/> */}
         {/* <Column title="TODO"><div></div> </Column> */}
-        <RequestBoard requests={requests}/>
+        <RequestBoard requests={requests} status="In progress"/>
+        <ActivityBoard activities={requests} label="Activities" />
         <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
           <a
             className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
