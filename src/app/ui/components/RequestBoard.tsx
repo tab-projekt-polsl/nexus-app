@@ -12,7 +12,7 @@ interface Props {
 
 export default function RequestBoard(props: Props) {
   return (
-<div className="indicator mb-0.5">
+<div className="indicator mb-0.5 mt-3">
 <span className="indicator-item indicator-top indicator-center badge badge-primary w-5/12 h-10 text-xl"> {props.status}</span>
     <Column>
       {props.requests.map((comp, key) => {

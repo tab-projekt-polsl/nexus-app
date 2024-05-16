@@ -5,8 +5,8 @@ export default function Header()
    
    
   return(
-    <div className="navbar sticky top-0 bg-base-100 z-10 shadow-md flex justify-between items-center px-4">
-<h1>Current Page</h1>
+    <div className="bg-blue-300  navbar sticky top-0 bg-base-100 z-10 shadow-md flex justify-between items-center px-4">
+<h1>Opend Page Name</h1>
 <div className="flex justify-end">
         <label className="swap swap-rotate">
   
