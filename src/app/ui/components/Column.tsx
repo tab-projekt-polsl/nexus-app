@@ -14,7 +14,7 @@ export default function Column(
 ) {
   return (
 
-    <div className="rounded-lg artboard phone-5 bg-base-200 overflow-auto mt-6">
+    <div className="rounded-lg artboard phone-5 bg-base-200 overflow-auto  m-8">
       {children}
     </div>
  
