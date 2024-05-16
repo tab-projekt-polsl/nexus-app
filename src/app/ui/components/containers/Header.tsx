@@ -1,12 +1,14 @@
 
-
-export default function Header()
-{
-   
-   
+import type { ReactNode } from 'react';
+export default function Header({
+  children,
+}: {
+  children :ReactNode;
+}){
+  
   return(
     <div className="bg-blue-300  navbar sticky top-0 bg-base-100 z-10 shadow-md flex justify-between items-center px-4">
-<h1>Opend Page Name</h1>
+<h1>{children}</h1>
 <div className="flex justify-end">
         <label className="swap swap-rotate">
   

@@ -1,5 +1,5 @@
 import RequestBoard from "@/app/ui/components/RequestBoard";
-
+import MyLayout from "@/app/ui/components/containers/MyLayout";
 const requests: Array<RequestObj> = [
   { name: "card1", description: "desc1" },
   { name: "card2", description: "desc2" },
@@ -16,12 +16,13 @@ export default function Requests()
 {
 return(
   
+  <MyLayout pageTitle="Requests">
   <div>
      <RequestBoard requests={requests} status="In progress"/>
      <RequestBoard requests={requests} status="Done"/>
      <RequestBoard requests={requests} status="Canceled"/>
   </div>
-  
+  </MyLayout>
  
  
 );
