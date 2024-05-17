@@ -2,12 +2,12 @@ import ActivityCard from "./ActivityCard";
 import Column from "./Column";
 
 
-interface RequestObj {
+interface ActivitesObj {
   name: String;
   description: String;
 }
 interface Props {
-  activities: Array<RequestObj>;
+  activities: Array<ActivitesObj>;
   label: String;
 }
 

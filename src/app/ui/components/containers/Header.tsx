@@ -7,7 +7,7 @@ export default function Header({
 }){
   
   return(
-    <div className="bg-blue-300  navbar sticky top-0 bg-base-100 z-10 shadow-md flex justify-between items-center px-4">
+    <div className="bg-blue-300 navbar sticky top-0 bg-base-100 z-10 shadow-md flex justify-between items-center px-4">
 <h1>{children}</h1>
 <div className="flex justify-end">
         <label className="swap swap-rotate">
