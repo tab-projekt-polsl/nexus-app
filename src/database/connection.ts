@@ -1,18 +1,12 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize } from "sequelize";
 
-const sequelize: Sequelize = new Sequelize('nexus', 'nexus', 'nexus', {
-  dialect: 'mysql',
-  host: 'localhost',
-  port: 3306
+const sequelize: Sequelize = new Sequelize("nexus", "nexus", "nexus", {
+  dialect: "mysql",
+  host: "localhost",
+  port: 3306,
+  // For some reason it doesn't work without it *shrug*
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  dialectModule: require("mysql2"),
 });
 
 export default sequelize;
-
-/*
-try {
-  await sequelize.authenticate();
-  console.log('Connection has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
-}
-*/

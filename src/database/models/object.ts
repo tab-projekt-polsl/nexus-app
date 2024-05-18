@@ -1,33 +1,33 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../connection";
 import Request from "./request";
+import { OBJECT_TYPE_ENUM } from "../controllers/object/object.dto";
 
-export default class Object extends Model {}
+export default class DbObject extends Model {}
 
-Object.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-        },
-        objType: {
-            // TODO: come up with enum values
-            // chance that it's supposed to be a table, not enum
-            type: DataTypes.ENUM('obj1', 'obj2', 'obj3')
-        },
+DbObject.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    { sequelize, modelName: 'object'},
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    objType: {
+      // TODO: come up with enum values
+      // chance that it's supposed to be a table, not enum
+      type: DataTypes.ENUM(...(Object.values(OBJECT_TYPE_ENUM) as string[])),
+    },
+  },
+  { sequelize, modelName: "object" },
 );
 
-
 // define associations
-Object.hasMany(Request, {
-    onDelete: 'CASCADE',
+DbObject.hasMany(Request, {
+  onDelete: "CASCADE",
 });
-Request.belongsTo(Object);
+Request.belongsTo(DbObject);
