@@ -5,21 +5,6 @@ import type { CreateRequestDTO, SelectedRequest } from "./request.dto";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace RequestController {
-  /**
-   * @example
-   * RequestController.createRequest({
-   * sequenceNum: 1,
-   * description: "First activity",
-   * result: true,
-   * status: ACTIVITY_STATUS_ENUM.DONE,
-   * dateReg: new Date(),
-   * dateFinCancel: new Date(),
-   * actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
-   * });
-   *
-   * @param requestInfo information about the activity
-   * @returns newly created activity
-   */
   export async function createRequest(
     requestInfo: CreateRequestDTO,
   ): Promise<Request> {

@@ -5,21 +5,6 @@ import type { CreateObjectDTO, SelectedObject } from "./object.dto";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ObjectController {
-  /**
-   * @example
-   * ObjectController.createObject({
-   * sequenceNum: 1,
-   * description: "First activity",
-   * result: true,
-   * status: ACTIVITY_STATUS_ENUM.DONE,
-   * dateReg: new Date(),
-   * dateFinCancel: new Date(),
-   * actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
-   * });
-   *
-   * @param objectInfo information about the activity
-   * @returns newly created activity
-   */
   export async function createObject(
     objectInfo: CreateObjectDTO,
   ): Promise<DbObject> {
@@ -27,8 +12,9 @@ export namespace ObjectController {
       throw new Error("Object info is required");
     }
     return DbObject.create({
-      description: objectInfo.name,
-      result: objectInfo.objectType,
+      name: objectInfo.name,
+      objType: objectInfo.objectType,
+      clientId: objectInfo.clientId,
     });
   }
 
