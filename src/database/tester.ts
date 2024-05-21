@@ -175,16 +175,16 @@ export namespace Tester {
   }
 
   export function testData(): void {
-    // addSampleData();
-    // addSampleActivities();
-    // addSamepleRequests();
-    // addSampleObjects();
-    // addSampleClients();
-    // addSampleEmployees();
-    // addSampleAdresses();
-    /* AddressController.getAddresses().then((addresses) => {
+     // addSampleData();
+     addSampleActivities();
+     addSamepleRequests();
+     addSampleObjects();
+     addSampleClients();
+     addSampleEmployees();
+     addSampleAdresses();
+     AddressController.getAddresses().then((addresses) => {
       log(addresses);
-    }); */
+    }); 
     /* EmployeeController.getEmployees().then((employees) => {
       log(employees);
     }); */

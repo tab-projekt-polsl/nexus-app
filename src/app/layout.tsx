@@ -16,7 +16,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  Tester.syncAllModelsAndTest();
+   // Tester.syncAllModelsAndTest();
   return (
     <html lang="en">
       <body className={inter.className}>

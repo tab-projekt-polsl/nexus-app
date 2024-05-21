@@ -1,11 +1,11 @@
 'use client'
 interface Props {
-  name: String;
   description: String;
-  requestId: string;
+  requestId: number;
 }
 
 export default function RequestCard(props: Props) {
+ 
   return (
     <div className="card  w-11/12  bg-base-100 shadow-xl mt-3 ml-auto mr-auto ">     
       <div className="card-body">

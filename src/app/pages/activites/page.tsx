@@ -5,7 +5,7 @@ export const metadata = {
 import ActivityBoard from "@/app/ui/components/ActivityBoard";
 import ActivityForm from "@/app/ui/components/ActivityForm";
 import MyLayout from "@/app/ui/components/containers/MyLayout";
-import Head from 'next/head'
+
 
 
 const activites: Array<ActivitesObj> = [

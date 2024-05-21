@@ -1,33 +1,32 @@
-
-export const metadata = {
-  title: 'Requests'
-}
 import RequestBoard from "@/app/ui/components/RequestBoard";
 import MyLayout from "@/app/ui/components/containers/MyLayout";
+import { RequestController } from "@/database/controllers/request/request.controller";
+import type { SelectedRequest } from "@/database/controllers/request/request.dto";
+
 const requests: Array<RequestObj> = [
   { name: "card1", description: "desc1",requestId: "reqID1" },
   { name: "card2", description: "desc2",requestId: "reqID2" },
-  { name: "card3", description: "desc3",requestId: "reqID3" },
-  { name: "card4", description: "desc4",requestId: "reqID4" },
-  { name: "card5", description: "desc5",requestId: "reqID5" },
-  { name: "card6", description: "desc6",requestId: "reqID6" },
-  { name: "card7", description: "desc7",requestId: "reqID7" },
-  { name: "card8", description: "desc8",requestId: "reqID8" },
 ];
+
+let tablicaReq: SelectedRequest[] = [];
+
 
 
 export default function Requests()
 {
-return(
   
+  RequestController.getRequests().then((requests) => {
+    tablicaReq = requests.map((item) => {
+      return item;
+    });
+  });
+return( 
   <MyLayout pageTitle="Requests">
   <div>
-     <RequestBoard requests={requests} status="In progress"/>
-     <RequestBoard requests={requests} status="In progress"/>
+  <RequestBoard requests={tablicaReq} status="from data base"/>
+  <RequestBoard requests={requests} status="In progress"/>
   </div>
   </MyLayout>
- 
- 
 );
 
 }
