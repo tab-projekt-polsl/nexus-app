@@ -99,4 +99,25 @@ export namespace ActivityController {
   export async function getActivities(): Promise<SelectedActivity[]> {
     return (await Activity.findAll()).map((activity) => activity.toJSON());
   }
+
+  /**
+   * @example
+   * ActivityController.getActivitiesByRequestId(2).then((activities) => {
+   * console.log(activities);
+   * });
+   *
+   * @param requestId
+   * @returns found activities
+   */
+  export async function getActivitiesByRequestId(
+    requestId: number,
+  ): Promise<SelectedActivity[]> {
+    return (
+      await Activity.findAll({
+        where: {
+          requestId: requestId,
+        },
+      })
+    ).map((activity) => activity.toJSON());
+  }
 }

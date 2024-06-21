@@ -1,5 +1,4 @@
 // Makes me do a module and then doesn't like the module either >:(
-
 import Request from "@/database/models/request";
 import type { CreateRequestDTO, SelectedRequest } from "./request.dto";
 
@@ -74,5 +73,25 @@ export namespace RequestController {
    */
   export async function getRequests(): Promise<SelectedRequest[]> {
     return (await Request.findAll()).map((activity) => activity.toJSON());
+  }
+
+  /**
+   * @example
+   * RequestController.getRequestsByStatus("TODO").then((requests) => {
+   * console.log(requests);
+   * });
+   *
+   * @returns found requests
+   */
+  export async function getRequestsByStatus(
+    status: string,
+  ): Promise<SelectedRequest[]> {
+    return (
+      await Request.findAll({
+        where: {
+          status: status,
+        },
+      })
+    ).map((activity) => activity.toJSON());
   }
 }

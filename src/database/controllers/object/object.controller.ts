@@ -73,4 +73,25 @@ export namespace ObjectController {
   export async function getObjects(): Promise<any[]> {
     return (await DbObject.findAll()).map((object) => object.toJSON());
   }
+
+  /**
+   * @example
+   * ObjectController.getObjectsByClientId(2).then((objects) => {
+   * console.log(objects);
+   * });
+   *
+   * @param clientId id to select by
+   * @returns found objects
+   */
+  export async function getObjectsByClientId(clientId: number): Promise<any[]> {
+    return (
+      await DbObject.findAll({
+        where: {
+          clientId: clientId,
+        },
+      })
+    ).map((object) => object.toJSON());
+  }
+
+  // get objects by request id
 }
