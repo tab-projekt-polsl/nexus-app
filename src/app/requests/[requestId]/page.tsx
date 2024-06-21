@@ -3,6 +3,8 @@ import { REQUEST_STATUS_ENUM } from "@/database/controllers/request/request.dto"
 import { ActivityController } from "@/database/controllers/activity/activity.controller";
 import getActivitiesByRequestId = ActivityController.getActivitiesByRequestId;
 import { RouteModal } from "@/components/RouteModal";
+import Link from "next/link";
+import InnerButton from "@/components/InnerButton";
 
 export default async function RequestPage({
   params,
@@ -41,12 +43,12 @@ export default async function RequestPage({
         <div className="card-actions justify-center self-end">
           {activities.length > 0 ? "Activities:" : ""}
           {activities.map((activity, index) => (
-            // <RouteModal
-            //   key={index}
-            //   className={"btn btn-sm"}
-            //   route={`/activities/${activity.id}`}
-            //   buttonText={`A-${activity.id}`}
-            // />
+            <InnerButton
+              key={index}
+              className=""
+              href={`/activities/${activity.id}`}
+              buttonText={`A-${activity.id}`}
+            />
           ))}
         </div>
       </div>
