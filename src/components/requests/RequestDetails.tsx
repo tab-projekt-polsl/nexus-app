@@ -2,8 +2,6 @@ import { RequestController } from "@/database/controllers/request/request.contro
 import { REQUEST_STATUS_ENUM } from "@/database/controllers/request/request.dto";
 import { ActivityController } from "@/database/controllers/activity/activity.controller";
 import getActivitiesByRequestId = ActivityController.getActivitiesByRequestId;
-import { RouteModal } from "@/components/RouteModal";
-import Link from "next/link";
 import InnerButton from "@/components/InnerButton";
 
 interface Props {
@@ -11,7 +9,7 @@ interface Props {
 }
 export default async function RequestDetails({ requestId }: Props) {
   const [request] = await Promise.all([
-    RequestController.getRequest(params.requestId),
+    RequestController.getRequest(requestId),
   ]);
 
   const badgeType = () => {

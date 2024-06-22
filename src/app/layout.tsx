@@ -17,8 +17,8 @@ export default async function RootLayout({
 }>) {
   Tester.syncAllModelsAndTest();
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className="bg-base-200">
+      <body className={inter.className + " bg-base-200"}>
         <NavBar />
         {children}
       </body>

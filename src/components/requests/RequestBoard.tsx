@@ -14,11 +14,11 @@ export default async function RequestBoard() {
 
   const requestsByStatus = await fetchRequests();
   return (
-    <div className="flex flex-row p-5">
+    <div className="flex flex-row p-5 bg-base-200">
       {requestsByStatus.map((requests, index) => (
         <div
           key={statuses[index]}
-          className="card max-w-80 bg-base-300 shadow-xl m-5"
+          className="card w-80 bg-base-300 shadow-xl m-5"
         >
           <div className="card-body items-center">
             <h2 className="card-title mb-5">{statuses[index]}</h2>

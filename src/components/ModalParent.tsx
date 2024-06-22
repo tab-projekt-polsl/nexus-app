@@ -1,16 +1,16 @@
 "use client";
-import React, { createElement, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface Props {
   className: string;
-  route: string;
   buttonText: string;
+  children: React.ReactNode;
 }
 
-export function RouteModal({ className, route, buttonText }: Props) {
+export function ModalParent({ className, children, buttonText }: Props) {
   const modalRef = useRef<HTMLDialogElement>(null);
   const [visible, setVisible] = useState(false);
-  const [showIframe, setShowIframe] = useState(false);
+  const [showChildren, setShowChildren] = useState(false);
 
   useEffect(() => {
     if (!modalRef.current) {
@@ -26,12 +26,12 @@ export function RouteModal({ className, route, buttonText }: Props) {
       return;
     }
     setVisible(false);
-    setShowIframe(false);
+    setShowChildren(false);
   };
 
   const toggleModal = () => {
     setVisible(!visible);
-    setShowIframe(!showIframe);
+    setShowChildren(!showChildren);
   };
 
   return (
@@ -40,17 +40,7 @@ export function RouteModal({ className, route, buttonText }: Props) {
         {buttonText}
       </button>
       <dialog ref={modalRef} className="modal min-h-60">
-        <div className="modal-box">
-          {showIframe && (
-            // eslint-disable-next-line react/iframe-missing-sandbox
-            <iframe
-              src={route}
-              sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-modals allow-top-navigation-by-user-activation"
-              allowFullScreen={true}
-              className="modal-content w-full min-h-72 h-full"
-            />
-          )}
-        </div>
+        <div className="modal-box">{showChildren && children}</div>
 
         <form method="dialog" className="modal-backdrop">
           <button onClick={onModalClose}>close</button>

@@ -1,7 +1,8 @@
 import React from "react";
 import type { SelectedRequest } from "@/database/controllers/request/request.dto";
 import { BsCheckCircleFill, BsClockFill } from "react-icons/bs";
-import { RouteModal } from "@/components/RouteModal";
+import { ModalParent } from "@/components/ModalParent";
+import RequestDetails from "@/components/requests/RequestDetails";
 
 interface Props {
   request: SelectedRequest;
@@ -30,11 +31,9 @@ export default function RequestCard({ request, className }: Props) {
             <BsClockFill className="fill-slate-600" />
           )}
         </div>
-        <RouteModal
-          route={`/requests/${request.id}`}
-          buttonText="Details"
-          className="btn btn-primary"
-        />
+        <ModalParent buttonText="Details" className="btn btn-primary">
+          <RequestDetails requestId={request.id} />
+        </ModalParent>
       </div>
     </div>
   );
