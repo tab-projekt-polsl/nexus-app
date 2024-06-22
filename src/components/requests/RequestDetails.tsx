@@ -6,11 +6,10 @@ import { RouteModal } from "@/components/RouteModal";
 import Link from "next/link";
 import InnerButton from "@/components/InnerButton";
 
-export default async function RequestPage({
-  params,
-}: {
-  params: { requestId: number };
-}) {
+interface Props {
+  requestId: number;
+}
+export default async function RequestDetails({ requestId }: Props) {
   const [request] = await Promise.all([
     RequestController.getRequest(params.requestId),
   ]);
