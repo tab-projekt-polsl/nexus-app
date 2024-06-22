@@ -7,9 +7,10 @@ import RequestDetails from "@/components/requests/RequestDetails";
 interface Props {
   request: SelectedRequest;
   className: string;
+  focus?: boolean;
 }
 
-export default function RequestCard({ request, className }: Props) {
+export default function RequestCard({ request, className, focus }: Props) {
   return (
     <div
       className={
@@ -31,7 +32,11 @@ export default function RequestCard({ request, className }: Props) {
             <BsClockFill className="fill-slate-600" />
           )}
         </div>
-        <ModalParent buttonText="Details" className="btn btn-primary">
+        <ModalParent
+          buttonText="Details"
+          className="btn btn-primary"
+          initialState={focus}
+        >
           <RequestDetails requestId={request.id} />
         </ModalParent>
       </div>

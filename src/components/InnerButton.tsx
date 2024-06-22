@@ -10,7 +10,7 @@ export default function InnerButton({ href, buttonText, className }: Props) {
     <div
       className={"btn" + className}
       onClick={() => {
-        window.parent.location.href = href;
+        window.location.href = href;
       }}
     >
       {buttonText}

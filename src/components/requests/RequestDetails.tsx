@@ -43,7 +43,7 @@ export default async function RequestDetails({ requestId }: Props) {
             <InnerButton
               key={index}
               className=""
-              href={`/activities/${activity.id}`}
+              href={`/activities/board/${activity.id}`}
               buttonText={`A-${activity.id}`}
             />
           ))}

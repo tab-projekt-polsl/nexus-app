@@ -3,7 +3,12 @@ import RequestCard from "@/components/requests/RequestCard";
 import type { SelectedRequest } from "@/database/controllers/request/request.dto";
 import { REQUEST_STATUS_ENUM } from "@/database/controllers/request/request.dto";
 
-export default async function RequestBoard() {
+/* eslint-disable eqeqeq */
+interface Props {
+  focusOn?: number;
+}
+
+export default async function RequestBoard({ focusOn }: Props) {
   const statuses = Object.values(REQUEST_STATUS_ENUM) as string[];
 
   const fetchRequests = async () => {
@@ -23,7 +28,12 @@ export default async function RequestBoard() {
           <div className="card-body items-center">
             <h2 className="card-title mb-5">{statuses[index]}</h2>
             {requests.map((request: SelectedRequest) => (
-              <RequestCard className="" key={request.id} request={request} />
+              <RequestCard
+                className=""
+                key={request.id}
+                request={request}
+                focus={focusOn == request.id}
+              />
             ))}
           </div>
         </div>

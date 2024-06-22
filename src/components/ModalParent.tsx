@@ -5,20 +5,24 @@ interface Props {
   className: string;
   buttonText: string;
   children: React.ReactNode;
+  initialState?: boolean;
 }
 
-export function ModalParent({ className, children, buttonText }: Props) {
+export function ModalParent({
+  className,
+  children,
+  buttonText,
+  initialState,
+}: Props) {
   const modalRef = useRef<HTMLDialogElement>(null);
-  const [visible, setVisible] = useState(false);
-  const [showChildren, setShowChildren] = useState(false);
+  const [visible, setVisible] = useState(initialState);
+  const [showChildren, setShowChildren] = useState(initialState);
 
   useEffect(() => {
     if (!modalRef.current) {
       return;
     }
     visible ? modalRef.current.showModal() : modalRef.current.close();
-
-    console.log("modalRef.current", modalRef.current);
   }, [visible]);
 
   const onModalClose = () => {
