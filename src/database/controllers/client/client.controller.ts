@@ -2,6 +2,9 @@
 
 import Client from "@/database/models/client";
 import type { CreateClientDTO, SelectedClient } from "./client.dto";
+import { SelectedRequest } from "../request/request.dto";
+import { ObjectController } from "../object/object.controller";
+import { RequestController } from "../request/request.controller";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ClientController {
@@ -32,6 +35,18 @@ export namespace ClientController {
         },
       },
     );
+  }
+
+  export async function getRequestsByClientId(
+    clientId: number,
+  ): Promise<SelectedRequest[]> {
+    const objects = await ObjectController.getObjectsByClientId(clientId);
+    const requests = await Promise.all(
+      objects.map((object) =>
+        RequestController.getRequestsByObjectId(object.id),
+      ),
+    );
+    return requests.flat();
   }
 
   /**

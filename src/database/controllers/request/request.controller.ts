@@ -1,11 +1,9 @@
 // Makes me do a module and then doesn't like the module either >:(
 import Request from "@/database/models/request";
 import type { CreateRequestDTO, SelectedRequest } from "./request.dto";
-import { SelectedClient } from "../client/client.dto";
 import { ClientController } from "../client/client.controller";
-import { log } from "console";
 import { ObjectController } from "../object/object.controller";
-import { SelectedObject } from "../object/object.dto";
+import type { SelectedClient } from "../client/client.dto";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace RequestController {
@@ -78,6 +76,18 @@ export namespace RequestController {
       throw new Error("Request not found");
     }
     return activity.toJSON();
+  }
+
+  export async function getRequestsByObjectId(
+    id: number,
+  ): Promise<SelectedRequest[]> {
+    return (
+      await Request.findAll({
+        where: {
+          objectId: id,
+        },
+      })
+    ).map((activity) => activity.toJSON());
   }
 
   export async function getClientByRequestId(

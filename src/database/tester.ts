@@ -198,13 +198,15 @@ export namespace Tester {
     /* ObjectController.getObjects().then((objects) => {
       log(objects);
     }); */
-    /* RequestController.getRequests().then((requests) => {
+    /*     RequestController.getRequests().then((requests) => {
       log(requests);
     }); */
-    ActivityController.getActivities().then((activities) => {
+    /* ActivityController.getActivities().then((activities) => {
       console.log(activities);
-    });
-
+    }); */
+    /* ClientController.getRequestsByClientId(5).then((requests) => {
+      console.log(requests);
+    }); */
     /* ActivityController.updateActivity(
       16,
       "description",

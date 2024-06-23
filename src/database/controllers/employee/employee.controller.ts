@@ -7,8 +7,6 @@ import type { CreateEmployeeDTO, SelectedEmployee } from "./employee.dto";
 import { getJwtSecretKey } from "@/libs/auth";
 import type { LoginResponse } from "./login-response.dto";
 
-const salt = "saltyPasswordsAreYummy";
-
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace EmployeeController {
   export async function isTokenValid(token: string): Promise<boolean> {
