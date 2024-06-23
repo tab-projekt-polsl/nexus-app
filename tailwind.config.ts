@@ -9,6 +9,22 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        gradient: "gradient 5s ease infinite",
+        "gradient-fast": "gradient 2s linear infinite",
+      },
+      keyframes: {
+        gradient: {
+          "0%, 100%": {
+            "background-size": "400% 400%",
+            "background-position": "left center",
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "right center",
+          },
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -16,6 +32,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [ daisyui ],
+  plugins: [daisyui],
 };
 export default config;

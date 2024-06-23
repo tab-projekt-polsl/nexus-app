@@ -2,7 +2,9 @@ import { RequestController } from "@/database/controllers/request/request.contro
 import { REQUEST_STATUS_ENUM } from "@/database/controllers/request/request.dto";
 import { ActivityController } from "@/database/controllers/activity/activity.controller";
 import getActivitiesByRequestId = ActivityController.getActivitiesByRequestId;
-import InnerButton from "@/components/InnerButton";
+import Link from "next/link";
+import moment from "moment";
+import { ClientController } from "@/database/controllers/client/client.controller";
 
 interface Props {
   requestId: number;
@@ -11,6 +13,9 @@ export default async function RequestDetails({ requestId }: Props) {
   const [request] = await Promise.all([
     RequestController.getRequest(requestId),
   ]);
+  const dateFinCancel = moment(request.dateFinCancel).format("DD-MM-YYYY");
+  const dateReg = moment(request.dateReg).format("DD-MM-YYYY");
+  const client = await ClientController.getClient(1);
 
   const badgeType = () => {
     const status = request.status;
@@ -37,15 +42,25 @@ export default async function RequestDetails({ requestId }: Props) {
           <div className={"badge " + badgeType()}>{request.status}</div>
         </h2>
         <p>{request.description}</p>
-        <div className="card-actions justify-center self-end">
+        <p>Registered: {dateReg === "Invalid date" ? "-" : dateReg}</p>
+        <p>
+          Finalized/cancelled:{" "}
+          {dateFinCancel === "Invalid date" ? "-" : dateFinCancel}
+        </p>
+        <p>
+          {client ? "Client:" : ""}
+          <div className="btn ml-2">
+            <Link href={`/management/client/${client.id}`}>{client.name}</Link>
+          </div>
+        </p>
+        <div className="">
           {activities.length > 0 ? "Activities:" : ""}
           {activities.map((activity, index) => (
-            <InnerButton
-              key={index}
-              className=""
-              href={`/activities/board/${activity.id}`}
-              buttonText={`A-${activity.id}`}
-            />
+            <div key={index} className="btn ml-2">
+              <Link href={`/activities/board/${activity.id}`}>
+                A-{activity.id}
+              </Link>
+            </div>
           ))}
         </div>
       </div>

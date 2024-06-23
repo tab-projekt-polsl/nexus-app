@@ -1,21 +1,24 @@
 import { BsBoxArrowRight } from "react-icons/bs";
+import Link from "next/link";
 
 export default function NavBar() {
   return (
     <div className="navbar bg-base-100">
       <div className=" flex-wrap">
-        <a className="btn btn-ghost text-xl">nexus</a>{" "}
+        <Link className="btn btn-ghost text-xl" href="/">
+          nexus
+        </Link>{" "}
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a href="/requests/board">Requests</a>
+            <Link href="/requests/board">Requests</Link>
           </li>
           <li>
-            <a href="/activities/board">Activities</a>
+            <Link href="/activities/board">Activities</Link>
           </li>
           <li>
-            <a href="/management">Management</a>
+            <Link href="/management">Management</Link>
           </li>
         </ul>
       </div>
