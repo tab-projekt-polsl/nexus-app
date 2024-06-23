@@ -25,18 +25,22 @@ import { AddressController } from "@/database/controllers/address/address.contro
 export namespace Tester {
   export function addSamepleRequests(): void {
     RequestController.createRequest({
-      description: "First request",
+      description: "Test1",
       result: true,
       status: REQUEST_STATUS_ENUM.DONE,
       dateReg: new Date(),
       dateFinCancel: new Date(),
+      objectId: 13,
+      employeeId: 21,
     });
     RequestController.createRequest({
-      description: "Second request",
+      description: "Test2",
       result: false,
       status: REQUEST_STATUS_ENUM.TODO,
       dateReg: new Date(),
       dateFinCancel: new Date(),
+      objectId: 13,
+      employeeId: 21,
     });
   }
 
@@ -49,8 +53,8 @@ export namespace Tester {
       dateReg: new Date(),
       dateFinCancel: new Date(),
       actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
-      requestId: 3,
-      employeeId: 11,
+      requestId: 18,
+      employeeId: 21,
     });
     ActivityController.createActivity({
       sequenceNum: 2,
@@ -60,8 +64,8 @@ export namespace Tester {
       dateReg: new Date(),
       dateFinCancel: new Date(),
       actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
-      requestId: 3,
-      employeeId: 12,
+      requestId: 18,
+      employeeId: 21,
     });
     ActivityController.createActivity({
       sequenceNum: 3,
@@ -71,8 +75,8 @@ export namespace Tester {
       dateReg: new Date(),
       dateFinCancel: new Date(),
       actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
-      requestId: 4,
-      employeeId: 10,
+      requestId: 18,
+      employeeId: 25,
     });
   }
 
@@ -80,29 +84,29 @@ export namespace Tester {
     ObjectController.createObject({
       name: "First object",
       objectType: OBJECT_TYPE_ENUM.OBJ1,
-      clientId: 3,
+      clientId: 5,
     });
     ObjectController.createObject({
       name: "Second object",
       objectType: OBJECT_TYPE_ENUM.OBJ2,
-      clientId: 3,
+      clientId: 6,
     });
     ObjectController.createObject({
       name: "Third object",
       objectType: OBJECT_TYPE_ENUM.OBJ3,
-      clientId: 4,
+      clientId: 9,
     });
   }
 
   export function addSampleClients(): void {
     ClientController.createClient({
-      name: "First client",
+      name: "First client1",
       fname: "First",
       lname: "Client",
       tel: 1234567890,
     });
     ClientController.createClient({
-      name: "Second client",
+      name: "Second client1",
       fname: "Second",
       lname: "Client",
       tel: 1234567890,
@@ -200,13 +204,14 @@ export namespace Tester {
     /* ActivityController.getActivities().then((activities) => {
       console.log(activities);
     }); */
-
-    EmployeeController.loginEmployee("worker2", "worker").then((response) => {
+    /* EmployeeController.loginEmployee("worker2", "worker").then((response) => {
       EmployeeController.isTokenValid(response.token).then((isValid) => {
         console.log(isValid);
       });
+    }); */
+    RequestController.getClientByRequestId(24).then((client) => {
+      log(client);
     });
-
     // wipeData();
   }
 }

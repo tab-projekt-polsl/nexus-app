@@ -15,10 +15,11 @@ export interface CreateRequestDTO {
   status: REQUEST_STATUS_ENUM;
   dateReg: Date;
   dateFinCancel: Date;
+  objectId: number;
+  employeeId: number;
 }
 
 export interface SelectedRequest extends CreateRequestDTO {
   id: number;
   requestId: number;
-  employeeId: number;
 }

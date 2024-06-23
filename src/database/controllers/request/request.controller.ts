@@ -1,6 +1,11 @@
 // Makes me do a module and then doesn't like the module either >:(
 import Request from "@/database/models/request";
 import type { CreateRequestDTO, SelectedRequest } from "./request.dto";
+import { SelectedClient } from "../client/client.dto";
+import { ClientController } from "../client/client.controller";
+import { log } from "console";
+import { ObjectController } from "../object/object.controller";
+import { SelectedObject } from "../object/object.dto";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace RequestController {
@@ -16,6 +21,8 @@ export namespace RequestController {
       status: requestInfo.status,
       dateReg: requestInfo.dateReg,
       dateFinCancel: requestInfo.dateFinCancel,
+      objectId: requestInfo.objectId,
+      employeeId: requestInfo.employeeId,
     });
   }
 
@@ -50,17 +57,43 @@ export namespace RequestController {
    * @param id id to select by
    * @returns found request
    */
-  export function getRequest(id: number): Promise<SelectedRequest> {
-    return Request.findOne({
+  export async function getRequest(id: number): Promise<SelectedRequest> {
+    const activity = await Request.findOne({
       where: {
         id: id,
       },
-    }).then((activity) => {
-      if (!activity) {
-        throw new Error("Request not found");
-      }
-      return activity.toJSON();
     });
+    if (!activity) {
+      throw new Error("Request not found");
+    }
+    return activity.toJSON();
+  }
+
+  export async function getClientByRequestId(
+    id: number,
+  ): Promise<SelectedClient> {
+    const request = await Request.findOne({
+      where: {
+        id,
+      },
+    });
+    if (!request) {
+      throw new Error("Request not found");
+    }
+
+    const objectId: number = request.getDataValue("objectId");
+    if (!objectId) {
+      throw new Error("Object not found");
+    }
+
+    const clientId: number = (await ObjectController.getObject(objectId))
+      .clientId;
+
+    if (!clientId) {
+      throw new Error("Client not found");
+    }
+
+    return ClientController.getClient(clientId);
   }
 
   /**
