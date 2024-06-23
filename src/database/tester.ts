@@ -114,21 +114,21 @@ export namespace Tester {
       fname: "First",
       lname: "Employee",
       role: EMPLOYEE_ROLE.ADMIN,
-      uname: "admin1",
+      uname: "admin2",
       password: "admin",
     });
     EmployeeController.createEmployee({
       fname: "Second",
       lname: "Employee",
       role: EMPLOYEE_ROLE.MANAGER,
-      uname: "manager1",
+      uname: "manager2",
       password: "manager",
     });
     EmployeeController.createEmployee({
       fname: "Third",
       lname: "Employee",
       role: EMPLOYEE_ROLE.WORKER,
-      uname: "worker1",
+      uname: "worker2",
       password: "worker",
     });
   }
@@ -200,5 +200,13 @@ export namespace Tester {
     /* ActivityController.getActivities().then((activities) => {
       console.log(activities);
     }); */
+
+    EmployeeController.loginEmployee("worker2", "worker").then((response) => {
+      EmployeeController.isTokenValid(response.token).then((isValid) => {
+        console.log(isValid);
+      });
+    });
+
+    // wipeData();
   }
 }
