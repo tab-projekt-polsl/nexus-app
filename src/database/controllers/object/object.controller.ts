@@ -18,8 +18,19 @@ export namespace ObjectController {
     });
   }
 
-  export function updateObject(): void {
-    console.log("Updating activity");
+  export async function updateObject(
+    id: number,
+    field: keyof CreateObjectDTO,
+    value: any,
+  ): Promise<[affectedCount: number]> {
+    return DbObject.update(
+      { [field]: value },
+      {
+        where: {
+          id,
+        },
+      },
+    );
   }
 
   /**
@@ -54,11 +65,11 @@ export namespace ObjectController {
       where: {
         id: id,
       },
-    }).then((activity) => {
-      if (!activity) {
+    }).then((object) => {
+      if (!object) {
         throw new Error("Object not found");
       }
-      return activity.toJSON();
+      return object.toJSON();
     });
   }
 

@@ -201,17 +201,25 @@ export namespace Tester {
     /* RequestController.getRequests().then((requests) => {
       log(requests);
     }); */
-    /* ActivityController.getActivities().then((activities) => {
+    ActivityController.getActivities().then((activities) => {
       console.log(activities);
+    });
+
+    /* ActivityController.updateActivity(
+      16,
+      "description",
+      "Updated description",
+    ).then((affectedCount) => {
+      console.log(affectedCount);
     }); */
     /* EmployeeController.loginEmployee("worker2", "worker").then((response) => {
       EmployeeController.isTokenValid(response.token).then((isValid) => {
         console.log(isValid);
       });
     }); */
-    RequestController.getClientByRequestId(24).then((client) => {
+    /* RequestController.getClientByRequestId(24).then((client) => {
       log(client);
-    });
+    }); */
     // wipeData();
   }
 }

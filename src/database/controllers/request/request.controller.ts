@@ -26,8 +26,19 @@ export namespace RequestController {
     });
   }
 
-  export function updateRequest(): void {
-    console.log("Updating activity");
+  export async function updateRequest(
+    id: number,
+    field: keyof CreateRequestDTO,
+    value: any,
+  ): Promise<[affectedCount: number]> {
+    return Request.update(
+      { [field]: value },
+      {
+        where: {
+          id,
+        },
+      },
+    );
   }
 
   /**

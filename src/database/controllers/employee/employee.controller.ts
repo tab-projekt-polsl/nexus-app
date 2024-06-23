@@ -76,8 +76,19 @@ export namespace EmployeeController {
     });
   }
 
-  export function updateEmployee(): void {
-    console.log("Updating activity");
+  export async function updateEmployee(
+    id: number,
+    field: keyof CreateEmployeeDTO,
+    value: any,
+  ): Promise<[affectedCount: number]> {
+    return Employee.update(
+      { [field]: value },
+      {
+        where: {
+          id,
+        },
+      },
+    );
   }
 
   /**

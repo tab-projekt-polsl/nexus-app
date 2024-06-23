@@ -39,8 +39,19 @@ export namespace ActivityController {
     });
   }
 
-  export function updateActivity(): void {
-    console.log("Updating activity");
+  export async function updateActivity(
+    id: number,
+    field: keyof CreateActivityDTO,
+    value: any,
+  ): Promise<[affectedCount: number]> {
+    return Activity.update(
+      { [field]: value },
+      {
+        where: {
+          id,
+        },
+      },
+    );
   }
 
   /**

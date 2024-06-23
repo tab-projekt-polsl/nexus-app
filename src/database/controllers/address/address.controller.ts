@@ -19,8 +19,19 @@ export namespace AddressController {
     });
   }
 
-  export function updateAddress(): void {
-    console.log("Updating activity");
+  export async function updateAddress(
+    id: number,
+    field: keyof CreateAddressDTO,
+    value: any,
+  ): Promise<[affectedCount: number]> {
+    return Address.update(
+      { [field]: value },
+      {
+        where: {
+          id,
+        },
+      },
+    );
   }
 
   /**

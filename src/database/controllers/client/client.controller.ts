@@ -19,8 +19,19 @@ export namespace ClientController {
     });
   }
 
-  export function updateClient(): void {
-    console.log("Updating activity");
+  export async function updateClient(
+    id: number,
+    field: keyof CreateClientDTO,
+    value: any,
+  ): Promise<[affectedCount: number]> {
+    return Client.update(
+      { [field]: value },
+      {
+        where: {
+          id,
+        },
+      },
+    );
   }
 
   /**
