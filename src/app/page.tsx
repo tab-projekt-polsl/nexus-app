@@ -1,8 +1,6 @@
-import RequestBoard from "@/components/requests/RequestBoard";
-
 export default async function Home() {
   return (
-    <div className="bg-gradient-to-br from-slate-900 to-slate-950 h-screen">
+    <div className="bg-gradient-to-br from-slate-900 to-slate-950 h-[calc(100vh-4rem)]">
       <div
         className="
           bg-gradient-to-r
