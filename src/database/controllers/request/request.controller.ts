@@ -4,6 +4,7 @@ import type { CreateRequestDTO, SelectedRequest } from "./request.dto";
 import { ClientController } from "../client/client.controller";
 import { ObjectController } from "../object/object.controller";
 import type { SelectedClient } from "../client/client.dto";
+import { revalidatePath } from "next/cache";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace RequestController {
@@ -25,10 +26,11 @@ export namespace RequestController {
   }
 
   export async function updateRequest(
-    id: number,
-    field: keyof CreateRequestDTO,
+    id: any,
+    field: any,
     value: any,
   ): Promise<[affectedCount: number]> {
+    "use server";
     return Request.update(
       { [field]: value },
       {
@@ -37,6 +39,18 @@ export namespace RequestController {
         },
       },
     );
+  }
+
+  export async function upDateRequestAction(formData: FormData) {
+    "use server";
+    const response = updateRequest(
+      formData.get("id"),
+      formData.get("field"),
+      formData.get("value"),
+    );
+    console.log(formData.get("value"));
+    revalidatePath(`/requests/board`);
+    return response;
   }
 
   /**

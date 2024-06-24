@@ -1,8 +1,11 @@
 import React from "react";
 import type { SelectedRequest } from "@/database/controllers/request/request.dto";
-import { BsCheckCircleFill, BsClockFill } from "react-icons/bs";
+import { REQUEST_STATUS_ENUM } from "@/database/controllers/request/request.dto";
 import { ModalParent } from "@/components/ModalParent";
 import RequestDetails from "@/components/requests/RequestDetails";
+import StatusSwitcher from "@/components/StatusSwitcher";
+import { RequestController } from "@/database/controllers/request/request.controller";
+import ResultSwitcher from "@/components/ResultSwitcher";
 
 interface Props {
   request: SelectedRequest;
@@ -11,10 +14,16 @@ interface Props {
 }
 
 export default function RequestCard({ request, className, focus }: Props) {
+  const statusCarousel = [
+    REQUEST_STATUS_ENUM.TODO,
+    REQUEST_STATUS_ENUM.IN_PROGRESS,
+    REQUEST_STATUS_ENUM.QA,
+    REQUEST_STATUS_ENUM.DONE,
+  ];
   return (
     <div
       className={
-        "transition-all ease-in-out card w-64 bg-base-100 shadow-l hover:shadow-2xl " +
+        "transition-all ease-in-out card w-72 bg-base-100 shadow-l hover:shadow-2xl " +
         className
       }
     >
@@ -25,13 +34,22 @@ export default function RequestCard({ request, className, focus }: Props) {
         </div>
       </div>
       <div className="card-actions justify-end mb-5 mr-5">
-        <div className="self-center flex-wrap mr-3">
-          {request.result ? (
-            <BsCheckCircleFill className="fill-green-600" />
-          ) : (
-            <BsClockFill className="fill-slate-600" />
-          )}
-        </div>
+        <ResultSwitcher
+          updateAction={RequestController.upDateRequestAction}
+          item={request}
+        />
+        <StatusSwitcher
+          updateAction={RequestController.upDateRequestAction}
+          array={statusCarousel}
+          item={request}
+          direction={false}
+        />
+        <StatusSwitcher
+          updateAction={RequestController.upDateRequestAction}
+          array={statusCarousel}
+          item={request}
+          direction={true}
+        />
         <ModalParent
           buttonText="Details"
           className="btn btn-primary"

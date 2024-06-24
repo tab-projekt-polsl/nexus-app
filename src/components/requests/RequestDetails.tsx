@@ -1,10 +1,9 @@
 import { RequestController } from "@/database/controllers/request/request.controller";
 import { REQUEST_STATUS_ENUM } from "@/database/controllers/request/request.dto";
 import { ActivityController } from "@/database/controllers/activity/activity.controller";
-import getActivitiesByRequestId = ActivityController.getActivitiesByRequestId;
 import Link from "next/link";
 import moment from "moment";
-import { ClientController } from "@/database/controllers/client/client.controller";
+import getActivitiesByRequestId = ActivityController.getActivitiesByRequestId;
 
 interface Props {
   requestId: number;
@@ -13,9 +12,10 @@ export default async function RequestDetails({ requestId }: Props) {
   const [request] = await Promise.all([
     RequestController.getRequest(requestId),
   ]);
+
   const dateFinCancel = moment(request.dateFinCancel).format("DD-MM-YYYY");
   const dateReg = moment(request.dateReg).format("DD-MM-YYYY");
-  const client = await ClientController.getClient(1);
+  const client = await RequestController.getClientByRequestId(request.id);
 
   const badgeType = () => {
     const status = request.status;
@@ -47,12 +47,12 @@ export default async function RequestDetails({ requestId }: Props) {
           Finalized/cancelled:{" "}
           {dateFinCancel === "Invalid date" ? "-" : dateFinCancel}
         </p>
-        <p>
+        <div>
           {client ? "Client:" : ""}
           <div className="btn ml-2">
             <Link href={`/management/client/${client.id}`}>{client.name}</Link>
           </div>
-        </p>
+        </div>
         <div className="">
           {activities.length > 0 ? "Activities:" : ""}
           {activities.map((activity, index) => (

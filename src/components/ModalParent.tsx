@@ -43,7 +43,7 @@ export function ModalParent({
       <button className={className} onClick={toggleModal.bind(null)}>
         {buttonText}
       </button>
-      <dialog ref={modalRef} className="modal min-h-60">
+      <dialog ref={modalRef} className="modal min-h-60 z-50">
         <div className="modal-box">{showChildren && children}</div>
 
         <form method="dialog" className="modal-backdrop">

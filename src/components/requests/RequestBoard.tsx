@@ -23,7 +23,7 @@ export default async function RequestBoard({ focusOn }: Props) {
       {requestsByStatus.map((requests, index) => (
         <div
           key={statuses[index]}
-          className="card w-80 bg-base-300 shadow-xl m-5"
+          className="card w-80 bg-base-300 shadow-xl m-5 shrink-0"
         >
           <div className="card-body items-center">
             <h2 className="card-title mb-5">{statuses[index]}</h2>
