@@ -2,9 +2,11 @@
 
 import Client from "@/database/models/client";
 import type { CreateClientDTO, SelectedClient } from "./client.dto";
-import { SelectedRequest } from "../request/request.dto";
+import type { SelectedRequest } from "../request/request.dto";
+import type Address from "@/database/models/address";
 import { ObjectController } from "../object/object.controller";
 import { RequestController } from "../request/request.controller";
+import { AddressController } from "../address/address.controller";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ClientController {
@@ -19,6 +21,7 @@ export namespace ClientController {
       fname: clientInfo.fname,
       lname: clientInfo.lname,
       tel: clientInfo.tel,
+      addressId: clientInfo.addressId,
     });
   }
 
@@ -49,6 +52,12 @@ export namespace ClientController {
     return requests.flat();
   }
 
+  export async function getAddressByClientId(
+    clientId: number,
+  ): Promise<Address | null> {
+    return AddressController.getAdressByClientId(clientId);
+  }
+
   /**
    *
    * @param id id to delete
@@ -68,17 +77,16 @@ export namespace ClientController {
     });
   }
 
-  export function getClient(id: number): Promise<SelectedClient> {
-    return Client.findOne({
+  export async function getClient(id: number): Promise<SelectedClient> {
+    const client = await Client.findOne({
       where: {
         id: id,
       },
-    }).then((client) => {
-      if (!client) {
-        throw new Error("Client not found");
-      }
-      return client.toJSON();
     });
+    if (!client) {
+      throw new Error("Client not found");
+    }
+    return client.toJSON();
   }
 
   export async function getClients(): Promise<SelectedClient[]> {

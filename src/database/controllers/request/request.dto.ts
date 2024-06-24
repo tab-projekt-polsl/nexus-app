@@ -21,5 +21,4 @@ export interface CreateRequestDTO {
 
 export interface SelectedRequest extends CreateRequestDTO {
   id: number;
-  requestId: number;
 }

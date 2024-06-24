@@ -6,6 +6,7 @@ import { jwtVerify, SignJWT } from "jose";
 import type { CreateEmployeeDTO, SelectedEmployee } from "./employee.dto";
 import { getJwtSecretKey } from "@/libs/auth";
 import type { LoginResponse } from "./login-response.dto";
+import Request from "@/database/models/request";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace EmployeeController {
@@ -112,6 +113,21 @@ export namespace EmployeeController {
     return Employee.findOne({
       where: {
         id: id,
+      },
+    }).then((employee) => {
+      if (!employee) {
+        throw new Error("Employee not found");
+      }
+      return employee.toJSON();
+    });
+  }
+
+  export async function getEmployeeByRequestId(
+    id: string,
+  ): Promise<SelectedEmployee> {
+    return Request.findOne({
+      where: {
+        employeeId: id,
       },
     }).then((employee) => {
       if (!employee) {

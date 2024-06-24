@@ -3,6 +3,7 @@ export interface CreateClientDTO {
   fname: string;
   lname: string;
   tel: number;
+  addressId: number;
 }
 
 export interface SelectedClient extends CreateClientDTO {

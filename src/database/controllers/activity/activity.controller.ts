@@ -1,8 +1,7 @@
-// Makes me do a module and then doesn't like the module either >:(
-
 import Activity from "@/database/models/activity";
 import type { CreateActivityDTO, SelectedActivity } from "./activity.dto";
 
+// Makes me do a module and then doesn't like the module either >:(
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ActivityController {
   /**
@@ -52,6 +51,18 @@ export namespace ActivityController {
         },
       },
     );
+  }
+
+  export async function getActivitiesByEmployeeId(
+    id: number,
+  ): Promise<SelectedActivity[]> {
+    return (
+      await Activity.findAll({
+        where: {
+          employeeId: id,
+        },
+      })
+    ).map((activity) => activity.toJSON());
   }
 
   /**

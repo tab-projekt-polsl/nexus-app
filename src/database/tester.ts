@@ -104,12 +104,14 @@ export namespace Tester {
       fname: "First",
       lname: "Client",
       tel: 1234567890,
+      addressId: 1,
     });
     ClientController.createClient({
       name: "Second client1",
       fname: "Second",
       lname: "Client",
       tel: 1234567890,
+      addressId: 2,
     });
   }
 

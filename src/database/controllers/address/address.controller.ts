@@ -1,8 +1,7 @@
-// Makes me do a module and then doesn't like the module either >:(
-
 import Address from "@/database/models/address";
 import type { CreateAddressDTO, SelectedAddress } from "./address.dto";
 
+// Makes me do a module and then doesn't like the module either >:(
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AddressController {
   export async function createAddress(
@@ -63,6 +62,14 @@ export namespace AddressController {
         throw new Error("Address not found");
       }
       return employee.toJSON();
+    });
+  }
+
+  export async function getAdressByClientId(clientId: number) {
+    return await Address.findOne({
+      where: {
+        clientId: clientId,
+      },
     });
   }
 

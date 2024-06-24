@@ -148,4 +148,16 @@ export namespace RequestController {
       })
     ).map((activity) => activity.toJSON());
   }
+
+  export async function getRequestsByEmployeeId(
+    id: number,
+  ): Promise<SelectedRequest[]> {
+    return (
+      await Request.findAll({
+        where: {
+          employeeId: id,
+        },
+      })
+    ).map((activity) => activity.toJSON());
+  }
 }
