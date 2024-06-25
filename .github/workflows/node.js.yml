@@ -16,8 +16,8 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          DB_USER: nexus
-          MYSQL_ROOT_PASSWORD: nexus
+          MYSQL_USER: nexus
+          MYSQL_PASSWORD: nexus
           MYSQL_DATABASE: nexus
         ports:
           - 3306:3306
