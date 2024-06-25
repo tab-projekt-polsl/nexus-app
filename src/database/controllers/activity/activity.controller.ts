@@ -1,9 +1,19 @@
 import Activity from "@/database/models/activity";
-import type { CreateActivityDTO, SelectedActivity } from "./activity.dto";
+import type {
+  ACTIVITY_STATUS_ENUM,
+  ACTIVITY_TYPE_ENUM,
+  CreateActivityDTO,
+  SelectedActivity,
+} from "./activity.dto";
+import { revalidatePath } from "next/cache";
+import { EmployeeController } from "@/database/controllers/employee/employee.controller";
+import { RequestController } from "@/database/controllers/request/request.controller";
 
 // Makes me do a module and then doesn't like the module either >:(
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ActivityController {
+  import getEmployee = EmployeeController.getEmployee;
+
   /**
    * @example
    * ActivityController.createActivity({
@@ -22,6 +32,7 @@ export namespace ActivityController {
   export async function createActivity(
     activityInfo: CreateActivityDTO,
   ): Promise<Activity> {
+    "use server";
     if (!activityInfo) {
       throw new Error("Activity info is required");
     }
@@ -37,12 +48,28 @@ export namespace ActivityController {
       employeeId: activityInfo.employeeId,
     });
   }
+  export async function createActivityAction(formData: FormData) {
+    "use server";
+    await createActivity({
+      sequenceNum: parseInt(formData.get("sequenceNum") as string, 10),
+      description: formData.get("description") as string,
+      result: formData.get("result") !== "0",
+      status: formData.get("status") as ACTIVITY_STATUS_ENUM,
+      dateReg: new Date(formData.get("dateReg") as string),
+      dateFinCancel: new Date(formData.get("dateFinCancel") as string),
+      actType: formData.get("actType") as ACTIVITY_TYPE_ENUM,
+      requestId: parseInt(formData.get("requestId") as string, 10),
+      employeeId: parseInt(formData.get("employeeId") as string, 10),
+    });
+    revalidatePath(`/requests/board`);
+  }
 
   export async function updateActivity(
     id: number,
     field: keyof CreateActivityDTO,
     value: any,
   ): Promise<[affectedCount: number]> {
+    "use server";
     return Activity.update(
       { [field]: value },
       {
@@ -51,6 +78,18 @@ export namespace ActivityController {
         },
       },
     );
+  }
+
+  export async function updateActivityAction(formData: FormData) {
+    "use server";
+    const response = updateActivity(
+      parseInt(formData.get("id") as string, 10),
+      formData.get("field") as keyof CreateActivityDTO,
+      formData.get("value"),
+    );
+    console.log(formData.get("value"));
+    revalidatePath(`/activities/board`);
+    return response;
   }
 
   export async function getActivitiesByEmployeeId(
@@ -63,6 +102,32 @@ export namespace ActivityController {
         },
       })
     ).map((activity) => activity.toJSON());
+  }
+
+  export async function getEmployeeByActivityId(id: number) {
+    return Activity.findOne({
+      where: {
+        id,
+      },
+    }).then(async (activity) => {
+      if (!activity) {
+        throw new Error("Activity not found");
+      }
+      return await getEmployee(activity.getDataValue("employeeId"));
+    });
+  }
+
+  export async function getRequestByActivityId(id: number) {
+    const activity = await Activity.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!activity) {
+      throw new Error("Activity not found");
+    }
+    return RequestController.getRequest(activity.getDataValue("requestId"));
   }
 
   /**

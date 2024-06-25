@@ -19,7 +19,9 @@ export default async function RootLayout({
   return (
     <html lang="en" className="bg-base-200">
       <body className={inter.className + " bg-base-200"}>
-        <NavBar />
+        <section className="pb-16">
+          <NavBar />
+        </section>
         {children}
       </body>
     </html>

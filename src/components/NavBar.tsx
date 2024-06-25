@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function NavBar() {
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 fixed z-40">
       <div className=" flex-wrap">
         <Link className="btn btn-ghost text-xl" href="/">
           nexus

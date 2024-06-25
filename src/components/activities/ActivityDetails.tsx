@@ -3,19 +3,21 @@ import { ACTIVITY_STATUS_ENUM } from "@/database/controllers/activity/activity.d
 import Link from "next/link";
 import moment from "moment";
 
-interface Props{
+interface Props {
   activityId: number;
 }
 
 export default async function ActivityDetails({ activityId }: Props) {
   const [activity] = await Promise.all([
-    ActivityController.getActivity("id",activityId),
+    ActivityController.getActivity("id", activityId),
   ]);
-
 
   const dateFinCancel = moment(activity.dateFinCancel).format("DD-MM-YYYY");
   const dateReg = moment(activity.dateReg).format("DD-MM-YYYY");
-
+  const employee = await ActivityController.getEmployeeByActivityId(
+    activity.id,
+  );
+  const request = await ActivityController.getRequestByActivityId(activity.id);
 
   const badgeType = () => {
     const status = activity.status;
@@ -28,25 +30,34 @@ export default async function ActivityDetails({ activityId }: Props) {
     }
   };
 
-  return(
+  return (
     <div className=" bg-base-100 h-full">
-         <div className="card-body h-full">
-         <h2 className="card-title">
+      <div className="card-body h-full">
+        <h2 className="card-title">
           A-{activity.id}
           <div className={"badge " + badgeType()}>{activity.status}</div>
         </h2>
         <p>{activity.description}</p>
-        <p>Sequence: {activity.sequenceNum}</p>
-        <p>Employee Id: {activity.employeeId}</p>
         <p>Registered: {dateReg === "Invalid date" ? "-" : dateReg}</p>
         <p>
-          Finalized/cancelled:{" "}
+          Completion/cancellation:{" "}
           {dateFinCancel === "Invalid date" ? "-" : dateFinCancel}
         </p>
-         </div>
+        <div>
+          {employee ? "Employee:" : ""}
+          <Link href={`/management/employee/${employee.id}`}>
+            <div className="btn ml-2">
+              {employee.fname + " " + employee.lname}
+            </div>
+          </Link>
+        </div>
+        <div>
+          {request ? "Request:" : ""}
+          <Link href={`/requests/board/${request.id}`}>
+            <div className="btn ml-2">R-{request.id}</div>
+          </Link>
+        </div>
+      </div>
     </div>
   );
-
-
-
 }

@@ -45,7 +45,7 @@ export default async function RequestDetails({ requestId }: Props) {
         <p>{request.description}</p>
         <p>Registered: {dateReg === "Invalid date" ? "-" : dateReg}</p>
         <p>
-          Finalized/cancelled:{" "}
+          Completion/cancellation:{" "}
           {dateFinCancel === "Invalid date" ? "-" : dateFinCancel}
         </p>
         <div>
@@ -56,18 +56,16 @@ export default async function RequestDetails({ requestId }: Props) {
         </div>
         <div>
           {object ? "Object:" : ""}
-          <div className="btn ml-2">
-            <Link href={`/management/object/${object.id}`}>{object.name}</Link>
-          </div>
+          <Link href={`/management/object/${object.id}`}>
+            <div className="btn ml-2">{object.name}</div>
+          </Link>
         </div>
         <div className="">
           {activities.length > 0 ? "Activities:" : ""}
           {activities.map((activity, index) => (
-            <div key={index} className="btn ml-2">
-              <Link href={`/activities/board/${activity.id}`}>
-                A-{activity.id}
-              </Link>
-            </div>
+            <Link key={index} href={`/activities/board/${activity.id}`}>
+              <div className="btn ml-2">A-{activity.id}</div>
+            </Link>
           ))}
         </div>
       </div>

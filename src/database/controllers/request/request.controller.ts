@@ -101,15 +101,15 @@ export namespace RequestController {
    * @returns found request
    */
   export async function getRequest(id: number): Promise<SelectedRequest> {
-    const activity = await Request.findOne({
+    const request = await Request.findOne({
       where: {
         id: id,
       },
     });
-    if (!activity) {
+    if (!request) {
       throw new Error("Request not found");
     }
-    return activity.toJSON();
+    return request.toJSON();
   }
 
   export async function getRequestsByObjectId(
@@ -121,7 +121,7 @@ export namespace RequestController {
           objectId: id,
         },
       })
-    ).map((activity) => activity.toJSON());
+    ).map((request) => request.toJSON());
   }
 
   export async function getClientByRequestId(
@@ -178,7 +178,7 @@ export namespace RequestController {
    * @returns found activities
    */
   export async function getRequests(): Promise<SelectedRequest[]> {
-    return (await Request.findAll()).map((activity) => activity.toJSON());
+    return (await Request.findAll()).map((request) => request.toJSON());
   }
 
   /**
@@ -198,7 +198,7 @@ export namespace RequestController {
           status: status,
         },
       })
-    ).map((activity) => activity.toJSON());
+    ).map((request) => request.toJSON());
   }
 
   export async function getRequestsByEmployeeId(
@@ -210,6 +210,6 @@ export namespace RequestController {
           employeeId: id,
         },
       })
-    ).map((activity) => activity.toJSON());
+    ).map((request) => request.toJSON());
   }
 }

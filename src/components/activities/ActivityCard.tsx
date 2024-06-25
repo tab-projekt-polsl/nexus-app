@@ -1,8 +1,11 @@
 import React from "react";
 import type { SelectedActivity } from "@/database/controllers/activity/activity.dto";
-import { BsCheckCircleFill, BsClockFill } from "react-icons/bs";
+import { ACTIVITY_STATUS_ENUM } from "@/database/controllers/activity/activity.dto";
 import { ModalParent } from "@/components/ModalParent";
 import ActivityDetails from "@/components/activities/ActivityDetails";
+import ResultSwitcher from "@/components/ResultSwitcher";
+import StatusSwitcher from "@/components/StatusSwitcher";
+import { ActivityController } from "@/database/controllers/activity/activity.controller";
 
 interface Props {
   activity: SelectedActivity;
@@ -10,11 +13,17 @@ interface Props {
   focus?: boolean;
 }
 
-export default function ActivityCard({ activity, className, focus }: Props){
+export default function ActivityCard({ activity, className, focus }: Props) {
+  const statusCarousel = [
+    ACTIVITY_STATUS_ENUM.TODO,
+    ACTIVITY_STATUS_ENUM.IN_PROGRESS,
+    ACTIVITY_STATUS_ENUM.QA,
+    ACTIVITY_STATUS_ENUM.DONE,
+  ];
   return (
     <div
       className={
-        "transition-all ease-in-out card w-64 bg-base-100 shadow-l hover:shadow-2xl " +
+        "transition-all ease-in-out card w-72 bg-base-100 shadow-l hover:shadow-2xl " +
         className
       }
     >
@@ -25,13 +34,22 @@ export default function ActivityCard({ activity, className, focus }: Props){
         </div>
       </div>
       <div className="card-actions justify-end mb-5 mr-5">
-        <div className="self-center flex-wrap mr-3">
-          {activity.result ? (
-            <BsCheckCircleFill className="fill-green-600" />
-          ) : (
-            <BsClockFill className="fill-slate-600" />
-          )}
-        </div>
+        <ResultSwitcher
+          updateAction={ActivityController.updateActivityAction}
+          item={activity}
+        />
+        <StatusSwitcher
+          updateAction={ActivityController.updateActivityAction}
+          array={statusCarousel}
+          item={activity}
+          direction={false}
+        />
+        <StatusSwitcher
+          updateAction={ActivityController.updateActivityAction}
+          array={statusCarousel}
+          item={activity}
+          direction={true}
+        />
         <ModalParent
           buttonText="Details"
           className="btn btn-primary"
