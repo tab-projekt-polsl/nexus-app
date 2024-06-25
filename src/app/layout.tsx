@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Nexus",
   description: "A simple task management platform",
+  icons: { icon: "/icon.png", apple: "/icon.png" },
 };
 
 export default async function RootLayout({
