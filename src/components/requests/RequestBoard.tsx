@@ -3,7 +3,7 @@ import RequestCard from "@/components/requests/RequestCard";
 import type { SelectedRequest } from "@/database/controllers/request/request.dto";
 import { REQUEST_STATUS_ENUM } from "@/database/controllers/request/request.dto";
 import { ModalParent } from "@/components/ModalParent";
-import RequestForm from "@/components/requests/RequestForm";
+import RequestCreator from "@/components/requests/RequestCreator";
 import { ObjectController } from "@/database/controllers/object/object.controller";
 import { EmployeeController } from "@/database/controllers/employee/employee.controller";
 
@@ -26,9 +26,9 @@ export default async function RequestBoard({ focusOn }: Props) {
     <div className="flex flex-row p-5 bg-base-200">
       <ModalParent
         className="fixed btn btn-primary z-40 right-14 text-2xl"
-        buttonText="+"
+        buttonText="＋"
       >
-        <RequestForm
+        <RequestCreator
           createAction={RequestController.createRequestAction}
           className=""
           objects={await ObjectController.getObjects()}
@@ -38,7 +38,7 @@ export default async function RequestBoard({ focusOn }: Props) {
       {requestsByStatus.map((requests, index) => (
         <div
           key={statuses[index]}
-          className="card min-w-80 bg-base-300 shadow-xl m-5 shrink-0"
+          className="card min-w-96 bg-base-300 shadow-xl m-5 shrink-0"
         >
           <div className="card-body items-center">
             <h2 className="card-title mb-5">{statuses[index]}</h2>

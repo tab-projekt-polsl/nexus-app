@@ -1,18 +1,18 @@
 "use client";
 
+import type { SelectedObject } from "@/database/controllers/object/object.dto";
 import type { SelectedEmployee } from "@/database/controllers/employee/employee.dto";
-import type { SelectedRequest } from "@/database/controllers/request/request.dto";
 
 interface Props {
   className?: string;
   createAction: any;
-  requests: SelectedRequest[];
+  objects: SelectedObject[];
   employees: SelectedEmployee[];
 }
-export default function ActivityForm({
+export default function RequestCreator({
   className,
   createAction,
-  requests,
+  objects,
   employees,
 }: Props) {
   return (
@@ -23,7 +23,6 @@ export default function ActivityForm({
           type="text"
           className="input input-bordered"
           name="description"
-          placeholder="Type here..."
         />
       </label>
       <input type="hidden" name="result" value="0" />
@@ -38,11 +37,11 @@ export default function ActivityForm({
         />
       </label>
       <label className="form-control">
-        <label className="label-text">Select request</label>
-        <select className="select select-bordered" name="requestId">
-          {requests.map((request: SelectedRequest, index) => (
-            <option key={index} value={request.id}>
-              R-{request.id}
+        <label className="label-text">Select object</label>
+        <select className="select select-bordered" name="objectId">
+          {objects.map((object: SelectedObject, index) => (
+            <option key={index} value={object.id}>
+              {object.name}
             </option>
           ))}
         </select>

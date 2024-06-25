@@ -23,7 +23,7 @@ export default function ActivityCard({ activity, className, focus }: Props) {
   return (
     <div
       className={
-        "transition-all ease-in-out card w-72 bg-base-100 shadow-l hover:shadow-2xl " +
+        "transition-all ease-in-out card w-72 mb-3 bg-base-100 shadow-l hover:shadow-2xl " +
         className
       }
     >
@@ -33,7 +33,7 @@ export default function ActivityCard({ activity, className, focus }: Props) {
           <p className="truncate w-36">{activity.description}</p>
         </div>
       </div>
-      <div className="card-actions justify-end mb-5 mr-5">
+      <div className="card-actions justify-center mb-5">
         <ResultSwitcher
           updateAction={ActivityController.updateActivityAction}
           item={activity}
@@ -52,7 +52,7 @@ export default function ActivityCard({ activity, className, focus }: Props) {
         />
         <ModalParent
           buttonText="Details"
-          className="btn btn-primary"
+          className="btn btn-ghost"
           initialState={focus}
         >
           <ActivityDetails activityId={activity.id} />

@@ -32,16 +32,19 @@ export default async function RequestCard({
   return (
     <div
       className={
-        "transition-all ease-in-out card w-72 bg-base-100 shadow-l hover:shadow-2xl " +
+        "transition-all ease-in-out card w-72 mb-3 bg-base-100 shadow-l hover:shadow-2xl " +
         className
       }
     >
-      <div className="card-body flex-1 flex-row justify-between">
+      <div className="card-body flex-1 flex-row justify-between group">
         <div className="flex-col">
           <h2 className="card-title">R-{request.id}</h2>
-          <p className="truncate w-36">{request.description}</p>
+          <p className="truncate w-44">{request.description}</p>
         </div>
-        <ModalParent buttonText="Edit">
+        <ModalParent
+          buttonText="Edit"
+          className="transition-all ease-in-out opacity-0 group-hover:opacity-100 text-gray-500"
+        >
           <RequestUpdater
             updateAction={RequestController.upDateRequestAction}
             request={request}
@@ -50,7 +53,7 @@ export default async function RequestCard({
           />
         </ModalParent>
       </div>
-      <div className="card-actions justify-end mb-5 mr-5">
+      <div className="card-actions justify-center mb-5">
         <ResultSwitcher
           updateAction={RequestController.upDateRequestAction}
           item={request}
@@ -69,7 +72,7 @@ export default async function RequestCard({
         />
         <ModalParent
           buttonText="Details"
-          className="btn btn-primary"
+          className="btn btn-ghost"
           initialState={focus}
         >
           <RequestDetails requestId={request.id} />

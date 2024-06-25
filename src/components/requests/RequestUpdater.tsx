@@ -88,7 +88,7 @@ export default function RequestUpdater({
           ))}
         </select>
       </label>
-      <button className={"btn " + className} type="submit">
+      <button className={"btn btn-outline " + className} type="submit">
         Edit Request
       </button>
     </form>

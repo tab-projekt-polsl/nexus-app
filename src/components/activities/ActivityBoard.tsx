@@ -5,7 +5,7 @@ import { ACTIVITY_STATUS_ENUM } from "@/database/controllers/activity/activity.d
 import { ModalParent } from "@/components/ModalParent";
 import { RequestController } from "@/database/controllers/request/request.controller";
 import { EmployeeController } from "@/database/controllers/employee/employee.controller";
-import ActivityForm from "@/components/activities/ActivityForm";
+import ActivityCreator from "@/components/activities/ActivityCreator";
 
 interface Props {
   focusOn?: number;
@@ -27,9 +27,9 @@ export default async function ActivityBoard({ focusOn }: Props) {
     <div className="flex flex-row p-5 bg-base-200">
       <ModalParent
         className="fixed btn btn-primary z-40 right-14 text-2xl"
-        buttonText="+"
+        buttonText="＋"
       >
-        <ActivityForm
+        <ActivityCreator
           createAction={ActivityController.createActivityAction}
           className=""
           requests={await RequestController.getRequests()}
@@ -39,7 +39,7 @@ export default async function ActivityBoard({ focusOn }: Props) {
       {activitiesByStatus.map((activities, index) => (
         <div
           key={statuses[index]}
-          className="card min-w-80 bg-base-300 shadow-xl m-5"
+          className="card min-w-96 bg-base-300 shadow-xl m-5"
         >
           <div className="card-body items-center">
             <h2 className="card-title mb-5">{statuses[index]}</h2>
