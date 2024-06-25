@@ -142,4 +142,24 @@ export namespace ActivityController {
       })
     ).map((activity) => activity.toJSON());
   }
+
+  /**
+   * @example
+   * ActivityController.getActivityByStatus("TODO").then((activities) => {
+   * console.log(activiteis);
+   * });
+   *
+   * @returns found activities
+   */
+  export async function getActivitiesByStatus(
+    status: string,
+  ): Promise<SelectedActivity[]> {
+    return (
+      await Activity.findAll({
+        where: {
+          status: status,
+        },
+      })
+    ).map((activity) => activity.toJSON());
+  }
 }
