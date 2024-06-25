@@ -2,6 +2,10 @@ import { RequestController } from "@/database/controllers/request/request.contro
 import RequestCard from "@/components/requests/RequestCard";
 import type { SelectedRequest } from "@/database/controllers/request/request.dto";
 import { REQUEST_STATUS_ENUM } from "@/database/controllers/request/request.dto";
+import { ModalParent } from "@/components/ModalParent";
+import RequestForm from "@/components/requests/RequestForm";
+import { ObjectController } from "@/database/controllers/object/object.controller";
+import { EmployeeController } from "@/database/controllers/employee/employee.controller";
 
 /* eslint-disable eqeqeq */
 interface Props {
@@ -20,6 +24,17 @@ export default async function RequestBoard({ focusOn }: Props) {
   const requestsByStatus = await fetchRequests();
   return (
     <div className="flex flex-row p-5 bg-base-200">
+      <ModalParent
+        className="fixed btn btn-primary z-40 right-14 text-2xl"
+        buttonText="+"
+      >
+        <RequestForm
+          createAction={RequestController.createRequestAction}
+          className=""
+          objects={await ObjectController.getObjects()}
+          employees={await EmployeeController.getEmployees()}
+        />
+      </ModalParent>
       {requestsByStatus.map((requests, index) => (
         <div
           key={statuses[index]}

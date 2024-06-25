@@ -1,6 +1,10 @@
 // Makes me do a module and then doesn't like the module either >:(
 import Request from "@/database/models/request";
-import type { CreateRequestDTO, SelectedRequest } from "./request.dto";
+import type {
+  CreateRequestDTO,
+  REQUEST_STATUS_ENUM,
+  SelectedRequest,
+} from "./request.dto";
 import { ClientController } from "../client/client.controller";
 import { ObjectController } from "../object/object.controller";
 import type { SelectedClient } from "../client/client.dto";
@@ -11,6 +15,7 @@ export namespace RequestController {
   export async function createRequest(
     requestInfo: CreateRequestDTO,
   ): Promise<Request> {
+    "use server";
     if (!requestInfo) {
       throw new Error("Request info is required");
     }
@@ -23,6 +28,21 @@ export namespace RequestController {
       objectId: requestInfo.objectId,
       employeeId: requestInfo.employeeId,
     });
+  }
+
+  export async function createRequestAction(formData: FormData) {
+    "use server";
+
+    await createRequest({
+      description: formData.get("description") as string,
+      result: formData.get("result") !== "0",
+      status: formData.get("status") as REQUEST_STATUS_ENUM,
+      dateReg: new Date(formData.get("dateReg") as string),
+      dateFinCancel: new Date(formData.get("dateFinCancel") as string),
+      objectId: parseInt(formData.get("objectId") as string, 10),
+      employeeId: parseInt(formData.get("employeeId") as string, 10),
+    });
+    revalidatePath(`/requests/board`);
   }
 
   export async function updateRequest(
@@ -129,6 +149,24 @@ export namespace RequestController {
     }
 
     return ClientController.getClient(clientId);
+  }
+
+  export async function getObjectByRequestId(id: number): Promise<any> {
+    const request = await Request.findOne({
+      where: {
+        id,
+      },
+    });
+    if (!request) {
+      throw new Error("Request not found");
+    }
+
+    const objectId: number = request.getDataValue("objectId");
+    if (!objectId) {
+      throw new Error("Object not found");
+    }
+
+    return ObjectController.getObject(objectId);
   }
 
   /**

@@ -60,17 +60,16 @@ export namespace ObjectController {
    * @param id id to select by
    * @returns found object
    */
-  export function getObject(id: number): Promise<SelectedObject> {
-    return DbObject.findOne({
+  export async function getObject(id: number): Promise<SelectedObject> {
+    const object = await DbObject.findOne({
       where: {
         id: id,
       },
-    }).then((object) => {
-      if (!object) {
-        throw new Error("Object not found");
-      }
-      return object.toJSON();
     });
+    if (!object) {
+      throw new Error("Object not found");
+    }
+    return object.toJSON();
   }
 
   /**

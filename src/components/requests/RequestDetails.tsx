@@ -16,6 +16,7 @@ export default async function RequestDetails({ requestId }: Props) {
   const dateFinCancel = moment(request.dateFinCancel).format("DD-MM-YYYY");
   const dateReg = moment(request.dateReg).format("DD-MM-YYYY");
   const client = await RequestController.getClientByRequestId(request.id);
+  const object = await RequestController.getObjectByRequestId(request.id);
 
   const badgeType = () => {
     const status = request.status;
@@ -51,6 +52,12 @@ export default async function RequestDetails({ requestId }: Props) {
           {client ? "Client:" : ""}
           <div className="btn ml-2">
             <Link href={`/management/client/${client.id}`}>{client.name}</Link>
+          </div>
+        </div>
+        <div>
+          {object ? "Object:" : ""}
+          <div className="btn ml-2">
+            <Link href={`/management/object/${object.id}`}>{object.name}</Link>
           </div>
         </div>
         <div className="">
