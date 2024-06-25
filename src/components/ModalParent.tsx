@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 interface Props {
-  className: string;
+  className?: string;
   buttonText: string;
   children: React.ReactNode;
   initialState?: boolean;

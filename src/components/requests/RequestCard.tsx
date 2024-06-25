@@ -6,6 +6,11 @@ import RequestDetails from "@/components/requests/RequestDetails";
 import StatusSwitcher from "@/components/StatusSwitcher";
 import { RequestController } from "@/database/controllers/request/request.controller";
 import ResultSwitcher from "@/components/ResultSwitcher";
+import RequestUpdater from "@/components/requests/RequestUpdater";
+import { ObjectController } from "@/database/controllers/object/object.controller";
+import getObjects = ObjectController.getObjects;
+import { EmployeeController } from "@/database/controllers/employee/employee.controller";
+import getEmployees = EmployeeController.getEmployees;
 
 interface Props {
   request: SelectedRequest;
@@ -13,7 +18,11 @@ interface Props {
   focus?: boolean;
 }
 
-export default function RequestCard({ request, className, focus }: Props) {
+export default async function RequestCard({
+  request,
+  className,
+  focus,
+}: Props) {
   const statusCarousel = [
     REQUEST_STATUS_ENUM.TODO,
     REQUEST_STATUS_ENUM.IN_PROGRESS,
@@ -32,6 +41,14 @@ export default function RequestCard({ request, className, focus }: Props) {
           <h2 className="card-title">R-{request.id}</h2>
           <p className="truncate w-36">{request.description}</p>
         </div>
+        <ModalParent buttonText="Edit">
+          <RequestUpdater
+            updateAction={RequestController.upDateRequestAction}
+            request={request}
+            objects={await getObjects()}
+            employees={await getEmployees()}
+          />
+        </ModalParent>
       </div>
       <div className="card-actions justify-end mb-5 mr-5">
         <ResultSwitcher

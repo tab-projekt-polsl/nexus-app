@@ -5,6 +5,7 @@ import type {
   REQUEST_STATUS_ENUM,
   SelectedRequest,
 } from "./request.dto";
+import { REQUEST_FIELDS } from "./request.dto";
 import { ClientController } from "../client/client.controller";
 import { ObjectController } from "../object/object.controller";
 import type { SelectedClient } from "../client/client.dto";
@@ -63,14 +64,24 @@ export namespace RequestController {
 
   export async function upDateRequestAction(formData: FormData) {
     "use server";
-    const response = updateRequest(
-      formData.get("id"),
-      formData.get("field"),
-      formData.get("value"),
-    );
-    console.log(formData.get("value"));
-    revalidatePath(`/requests/board`);
-    return response;
+    if (!(formData.get("isUpdate") === "yes")) {
+      const response = updateRequest(
+        formData.get("id"),
+        formData.get("field"),
+        formData.get("value"),
+      );
+      console.log(formData.get("value"));
+      revalidatePath(`/requests/board`);
+      return response;
+    } else {
+      console.log("hehe");
+      const fields = Object.values(REQUEST_FIELDS) as string[];
+      for (const field of fields) {
+        await updateRequest(formData.get("id"), field, formData.get(field));
+      }
+      revalidatePath(`/requests/board`);
+      return true;
+    }
   }
 
   /**

@@ -19,6 +19,16 @@ export interface CreateRequestDTO {
   employeeId: number;
 }
 
+export enum REQUEST_FIELDS {
+  DESCRIPTION = "description",
+  RESULT = "result",
+  STATUS = "status",
+  DATE_REG = "dateReg",
+  DATE_FIN_CANCEL = "dateFinCancel",
+  OBJECT_ID = "objectId",
+  EMPLOYEE_ID = "employeeId",
+}
+
 export interface SelectedRequest extends CreateRequestDTO {
   id: number;
 }
