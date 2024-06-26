@@ -6,14 +6,18 @@ import ActivityDetails from "@/components/activities/ActivityDetails";
 import ResultSwitcher from "@/components/ResultSwitcher";
 import StatusSwitcher from "@/components/StatusSwitcher";
 import { ActivityController } from "@/database/controllers/activity/activity.controller";
-
+import ActivityUpdater from "@/components/activities/ActivityUpdater";
+import { RequestController } from "@/database/controllers/request/request.controller";
+import  getRequests  = RequestController.getRequests;
+import { EmployeeController } from "@/database/controllers/employee/employee.controller";
+import getEmployees = EmployeeController.getEmployees;
 interface Props {
   activity: SelectedActivity;
   className: string;
   focus?: boolean;
 }
 
-export default function ActivityCard({ activity, className, focus }: Props) {
+export default async function ActivityCard({ activity, className, focus }: Props) {
   const statusCarousel = [
     ACTIVITY_STATUS_ENUM.TODO,
     ACTIVITY_STATUS_ENUM.IN_PROGRESS,
@@ -32,6 +36,17 @@ export default function ActivityCard({ activity, className, focus }: Props) {
           <h2 className="card-title">A-{activity.id}</h2>
           <p className="truncate w-36">{activity.description}</p>
         </div>
+        <ModalParent
+          buttonText="Edit"
+          className="transition-all ease-in-out group-hover:opacity-100 text-gray-500"
+        >
+          <ActivityUpdater
+            updateAction={RequestController.upDateRequestAction}
+            activity={activity}
+            requests={await getRequests()}
+            employees={await getEmployees()}
+          />
+        </ModalParent>
       </div>
       <div className="card-actions justify-center mb-5">
         <ResultSwitcher
