@@ -6,7 +6,9 @@ export enum REQUEST_STATUS_ENUM {
 }
 
 export enum REQUEST_TYPE_ENUM {
-  REQUEST_TYPE = "activity types",
+  EASY = "easy",
+  MEDIUM = "medium",
+  HARD = "hard",
 }
 
 export interface CreateRequestDTO {

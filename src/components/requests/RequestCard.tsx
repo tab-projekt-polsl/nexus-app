@@ -46,7 +46,7 @@ export default async function RequestCard({
           className="transition-all ease-in-out opacity-0 group-hover:opacity-100 text-gray-500"
         >
           <RequestUpdater
-            updateAction={RequestController.upDateRequestAction}
+            updateAction={RequestController.updateRequestAction}
             request={request}
             objects={await getObjects()}
             employees={await getEmployees()}
@@ -55,17 +55,17 @@ export default async function RequestCard({
       </div>
       <div className="card-actions justify-center mb-5">
         <ResultSwitcher
-          updateAction={RequestController.upDateRequestAction}
+          updateAction={RequestController.updateRequestAction}
           item={request}
         />
         <StatusSwitcher
-          updateAction={RequestController.upDateRequestAction}
+          updateAction={RequestController.updateRequestAction}
           array={statusCarousel}
           item={request}
           direction={false}
         />
         <StatusSwitcher
-          updateAction={RequestController.upDateRequestAction}
+          updateAction={RequestController.updateRequestAction}
           array={statusCarousel}
           item={request}
           direction={true}

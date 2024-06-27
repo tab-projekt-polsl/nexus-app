@@ -62,7 +62,7 @@ export namespace RequestController {
     );
   }
 
-  export async function upDateRequestAction(formData: FormData) {
+  export async function updateRequestAction(formData: FormData) {
     "use server";
     if (!(formData.get("isUpdate") === "yes")) {
       const response = updateRequest(
@@ -70,11 +70,9 @@ export namespace RequestController {
         formData.get("field"),
         formData.get("value"),
       );
-      console.log(formData.get("value"));
       revalidatePath(`/requests/board`);
       return response;
     } else {
-      console.log("hehe");
       const fields = Object.values(REQUEST_FIELDS) as string[];
       for (const field of fields) {
         await updateRequest(formData.get("id"), field, formData.get(field));

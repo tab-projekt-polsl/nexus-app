@@ -8,7 +8,7 @@ import StatusSwitcher from "@/components/StatusSwitcher";
 import { ActivityController } from "@/database/controllers/activity/activity.controller";
 import ActivityUpdater from "@/components/activities/ActivityUpdater";
 import { RequestController } from "@/database/controllers/request/request.controller";
-import  getRequests  = RequestController.getRequests;
+import getRequests = RequestController.getRequests;
 import { EmployeeController } from "@/database/controllers/employee/employee.controller";
 import getEmployees = EmployeeController.getEmployees;
 interface Props {
@@ -17,7 +17,11 @@ interface Props {
   focus?: boolean;
 }
 
-export default async function ActivityCard({ activity, className, focus }: Props) {
+export default async function ActivityCard({
+  activity,
+  className,
+  focus,
+}: Props) {
   const statusCarousel = [
     ACTIVITY_STATUS_ENUM.TODO,
     ACTIVITY_STATUS_ENUM.IN_PROGRESS,
@@ -31,20 +35,21 @@ export default async function ActivityCard({ activity, className, focus }: Props
         className
       }
     >
-      <div className="card-body flex-1 flex-row justify-between">
+      <div className="card-body flex-1 flex-row justify-between group">
         <div className="flex-col">
           <h2 className="card-title">A-{activity.id}</h2>
           <p className="truncate w-36">{activity.description}</p>
         </div>
         <ModalParent
           buttonText="Edit"
-          className="transition-all ease-in-out group-hover:opacity-100 text-gray-500"
+          className="transition-all ease-in-out opacity-0 group-hover:opacity-100 text-gray-500"
         >
           <ActivityUpdater
-            updateAction={RequestController.upDateRequestAction}
+            updateAction={ActivityController.updateActivityAction}
             activity={activity}
             requests={await getRequests()}
             employees={await getEmployees()}
+            activityTypes={await ActivityController.getActivityTypes()}
           />
         </ModalParent>
       </div>

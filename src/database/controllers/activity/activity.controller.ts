@@ -1,10 +1,10 @@
 import Activity from "@/database/models/activity";
 import type {
   ACTIVITY_STATUS_ENUM,
-  ACTIVITY_TYPE_ENUM,
   CreateActivityDTO,
   SelectedActivity,
 } from "./activity.dto";
+import { ACTIVITY_FIELDS, ACTIVITY_TYPE_ENUM } from "./activity.dto";
 import { revalidatePath } from "next/cache";
 import { EmployeeController } from "@/database/controllers/employee/employee.controller";
 import { RequestController } from "@/database/controllers/request/request.controller";
@@ -65,8 +65,8 @@ export namespace ActivityController {
   }
 
   export async function updateActivity(
-    id: number,
-    field: keyof CreateActivityDTO,
+    id: any,
+    field: any,
     value: any,
   ): Promise<[affectedCount: number]> {
     "use server";
@@ -82,14 +82,23 @@ export namespace ActivityController {
 
   export async function updateActivityAction(formData: FormData) {
     "use server";
-    const response = updateActivity(
-      parseInt(formData.get("id") as string, 10),
-      formData.get("field") as keyof CreateActivityDTO,
-      formData.get("value"),
-    );
-    console.log(formData.get("value"));
-    revalidatePath(`/activities/board`);
-    return response;
+    if (!(formData.get("isUpdate") === "yes")) {
+      const response = updateActivity(
+        parseInt(formData.get("id") as string, 10),
+        formData.get("field") as keyof CreateActivityDTO,
+        formData.get("value"),
+      );
+      console.log(formData.get("value"));
+      revalidatePath(`/activities/board`);
+      return response;
+    } else {
+      const fields = Object.values(ACTIVITY_FIELDS) as string[];
+      for (const field of fields) {
+        await updateActivity(formData.get("id"), field, formData.get(field));
+      }
+      revalidatePath(`/activities/board`);
+      return true;
+    }
   }
 
   export async function getActivitiesByEmployeeId(
@@ -206,6 +215,18 @@ export namespace ActivityController {
         },
       })
     ).map((activity) => activity.toJSON());
+  }
+
+  /**
+   * @example
+   * ActivityController.getActivityTypes().then((types) => {
+   * console.log(types);
+   * });
+   *
+   * @returns activity types
+   */
+  export async function getActivityTypes(): Promise<string[]> {
+    return Object.values(ACTIVITY_TYPE_ENUM);
   }
 
   /**

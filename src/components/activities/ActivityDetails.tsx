@@ -43,6 +43,7 @@ export default async function ActivityDetails({ activityId }: Props) {
           Completion/cancellation:{" "}
           {dateFinCancel === "Invalid date" ? "-" : dateFinCancel}
         </p>
+        <p>Activity type: {activity.actType}</p>
         <div>
           {employee ? "Employee:" : ""}
           <Link href={`/management/employee/${employee.id}`}>

@@ -12,6 +12,7 @@ interface Props {
   requests: SelectedRequest[];
   activity: SelectedActivity;
   employees: SelectedEmployee[];
+  activityTypes: string[];
 }
 export default function ActivityUpdater({
   className,
@@ -19,6 +20,7 @@ export default function ActivityUpdater({
   requests,
   activity,
   employees,
+  activityTypes,
 }: Props) {
   const [dateFinCancel, setDateFinCancel] = useState<string>(
     moment(activity.dateFinCancel).format("YYYY-MM-DD"),
@@ -26,6 +28,7 @@ export default function ActivityUpdater({
   const [description, setDescription] = useState<string>(activity.description);
   const [requestId, setRequestId] = useState<number>(activity.requestId);
   const [employeeId, setEmployeeId] = useState<number>(activity.employeeId);
+  const [actType, setActType] = useState<string>(activity.actType);
 
   return (
     <form action={updateAction} className="flex flex-col space-y-4">
@@ -33,6 +36,8 @@ export default function ActivityUpdater({
       <input type="hidden" name="isUpdate" value="yes" />
       <input type="hidden" name="result" value={activity.result ? "1" : "0"} />
       <input type="hidden" name="status" value={activity.status} />
+      <input type="hidden" name="actType" value={activity.actType} />
+      <input type="hidden" name="sequenceNum" value={activity.sequenceNum} />
       <input
         type="hidden"
         name="dateReg"
@@ -59,6 +64,21 @@ export default function ActivityUpdater({
         />
       </label>
       <label className="form-control">
+        <label className="label-text">Select activity type</label>
+        <select
+          className="select select-bordered"
+          name="actType"
+          value={actType}
+          onChange={(e) => setActType(e.target.value)}
+        >
+          {activityTypes.map((type: string, index) => (
+            <option key={index} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="form-control">
         <label className="label-text">Select request</label>
         <select
           className="select select-bordered"
@@ -68,7 +88,7 @@ export default function ActivityUpdater({
         >
           {requests.map((request: SelectedRequest, index) => (
             <option key={index} value={request.id}>
-              {request.description}
+              R-{request.id}
             </option>
           ))}
         </select>

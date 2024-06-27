@@ -8,12 +8,14 @@ interface Props {
   createAction: any;
   requests: SelectedRequest[];
   employees: SelectedEmployee[];
+  activityTypes: string[];
 }
 export default function ActivityCreator({
   className,
   createAction,
   requests,
   employees,
+  activityTypes,
 }: Props) {
   return (
     <form action={createAction} className="flex flex-col space-y-4">
@@ -43,6 +45,16 @@ export default function ActivityCreator({
           {requests.map((request: SelectedRequest, index) => (
             <option key={index} value={request.id}>
               R-{request.id}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="form-control">
+        <label className="label-text">Select activity type</label>
+        <select className="select select-bordered" name="actType">
+          {activityTypes.map((type: string, index) => (
+            <option key={index} value={type}>
+              {type}
             </option>
           ))}
         </select>

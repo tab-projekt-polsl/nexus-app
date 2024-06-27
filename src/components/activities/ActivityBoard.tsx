@@ -32,6 +32,7 @@ export default async function ActivityBoard({ focusOn }: Props) {
         <ActivityCreator
           createAction={ActivityController.createActivityAction}
           className=""
+          activityTypes={await ActivityController.getActivityTypes()}
           requests={await RequestController.getRequests()}
           employees={await EmployeeController.getEmployees()}
         />
