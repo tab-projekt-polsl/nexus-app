@@ -14,6 +14,7 @@ interface Props {
   employees: SelectedEmployee[];
   activityTypes: string[];
 }
+
 export default function ActivityUpdater({
   className,
   updateAction,
@@ -31,7 +32,11 @@ export default function ActivityUpdater({
   const [actType, setActType] = useState<string>(activity.actType);
 
   return (
-    <form action={updateAction} className="flex flex-col space-y-4">
+    <form
+      action={updateAction}
+      method="post"
+      className="flex flex-col space-y-4"
+    >
       <input type="hidden" name="id" value={activity.id} />
       <input type="hidden" name="isUpdate" value="yes" />
       <input type="hidden" name="result" value={activity.result ? "1" : "0"} />
@@ -51,6 +56,8 @@ export default function ActivityUpdater({
           name="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          placeholder="Type here..."
+          required
         />
       </label>
       <label className="form-control">
@@ -61,6 +68,7 @@ export default function ActivityUpdater({
           name="dateFinCancel"
           value={dateFinCancel}
           onChange={(e) => setDateFinCancel(e.target.value)}
+          required
         />
       </label>
       <label className="form-control">
@@ -70,6 +78,7 @@ export default function ActivityUpdater({
           name="actType"
           value={actType}
           onChange={(e) => setActType(e.target.value)}
+          required
         >
           {activityTypes.map((type: string, index) => (
             <option key={index} value={type}>
@@ -85,7 +94,9 @@ export default function ActivityUpdater({
           name="requestId"
           value={requestId}
           onChange={(e) => setRequestId(parseInt(e.target.value, 10))}
+          required
         >
+          <option value="">Select a request</option>
           {requests.map((request: SelectedRequest, index) => (
             <option key={index} value={request.id}>
               R-{request.id}
@@ -100,7 +111,9 @@ export default function ActivityUpdater({
           name="employeeId"
           value={employeeId}
           onChange={(e) => setEmployeeId(parseInt(e.target.value, 10))}
+          required
         >
+          <option value="">Select an employee</option>
           {employees.map((employee: SelectedEmployee, index) => (
             <option key={index} value={employee.id}>
               {employee.fname + " " + employee.lname}

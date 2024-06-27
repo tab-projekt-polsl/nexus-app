@@ -10,6 +10,7 @@ interface Props {
   employees: SelectedEmployee[];
   activityTypes: string[];
 }
+
 export default function ActivityCreator({
   className,
   createAction,
@@ -18,7 +19,11 @@ export default function ActivityCreator({
   activityTypes,
 }: Props) {
   return (
-    <form action={createAction} className="flex flex-col space-y-4">
+    <form
+      action={createAction}
+      method="post"
+      className="flex flex-col space-y-4"
+    >
       <label className="form-control">
         <label className="label-text">Description</label>
         <input
@@ -26,6 +31,7 @@ export default function ActivityCreator({
           className="input input-bordered"
           name="description"
           placeholder="Type here..."
+          required
         />
       </label>
       <input type="hidden" name="result" value="0" />
@@ -37,11 +43,13 @@ export default function ActivityCreator({
           type="date"
           className="input input-bordered"
           name="dateFinCancel"
+          required
         />
       </label>
       <label className="form-control">
         <label className="label-text">Select request</label>
-        <select className="select select-bordered" name="requestId">
+        <select className="select select-bordered" name="requestId" required>
+          <option value="">Select a request</option>
           {requests.map((request: SelectedRequest, index) => (
             <option key={index} value={request.id}>
               R-{request.id}
@@ -51,7 +59,8 @@ export default function ActivityCreator({
       </label>
       <label className="form-control">
         <label className="label-text">Select activity type</label>
-        <select className="select select-bordered" name="actType">
+        <select className="select select-bordered" name="actType" required>
+          <option value="">Select an activity type</option>
           {activityTypes.map((type: string, index) => (
             <option key={index} value={type}>
               {type}
@@ -61,7 +70,8 @@ export default function ActivityCreator({
       </label>
       <label className="form-control">
         <label className="label-text">Select employee</label>
-        <select className="select select-bordered" name="employeeId">
+        <select className="select select-bordered" name="employeeId" required>
+          <option value="">Select an employee</option>
           {employees.map((employee: SelectedEmployee, index) => (
             <option key={index} value={employee.id}>
               {employee.fname + " " + employee.lname}
@@ -70,7 +80,7 @@ export default function ActivityCreator({
         </select>
       </label>
       <button className={"btn " + className} type="submit">
-        Add Request
+        Add Activity
       </button>
     </form>
   );

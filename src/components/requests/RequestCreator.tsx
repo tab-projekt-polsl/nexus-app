@@ -9,6 +9,7 @@ interface Props {
   objects: SelectedObject[];
   employees: SelectedEmployee[];
 }
+
 export default function RequestCreator({
   className,
   createAction,
@@ -16,13 +17,19 @@ export default function RequestCreator({
   employees,
 }: Props) {
   return (
-    <form action={createAction} className="flex flex-col space-y-4">
+    <form
+      action={createAction}
+      method="post"
+      className="flex flex-col space-y-4"
+    >
       <label className="form-control">
         <label className="label-text">Description</label>
         <input
           type="text"
           className="input input-bordered"
           name="description"
+          placeholder="Type here..."
+          required
         />
       </label>
       <input type="hidden" name="result" value="0" />
@@ -34,11 +41,13 @@ export default function RequestCreator({
           type="date"
           className="input input-bordered"
           name="dateFinCancel"
+          required
         />
       </label>
       <label className="form-control">
         <label className="label-text">Select object</label>
-        <select className="select select-bordered" name="objectId">
+        <select className="select select-bordered" name="objectId" required>
+          <option value="">Select an object</option>
           {objects.map((object: SelectedObject, index) => (
             <option key={index} value={object.id}>
               {object.name}
@@ -48,7 +57,8 @@ export default function RequestCreator({
       </label>
       <label className="form-control">
         <label className="label-text">Select employee</label>
-        <select className="select select-bordered" name="employeeId">
+        <select className="select select-bordered" name="employeeId" required>
+          <option value="">Select an employee</option>
           {employees.map((employee: SelectedEmployee, index) => (
             <option key={index} value={employee.id}>
               {employee.fname + " " + employee.lname}
