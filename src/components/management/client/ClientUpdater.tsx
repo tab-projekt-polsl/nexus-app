@@ -84,12 +84,12 @@ export default function ClientUpdater({
         className="flex flex-col space-y-4 max-w-30"
       >
         <input type="hidden" name="clientId" value={client.id} />
-        <div className="flex flex-row">
+        <div className="flex flex-row justify-center">
           <label className="form-control">
             <label className="label-text">Street</label>
             <input
               type="text"
-              className="input input-bordered"
+              className="input input-bordered w-60 mr-1"
               name="street"
               value={street}
               onChange={(e) => setStreet(e.target.value)}
@@ -100,7 +100,7 @@ export default function ClientUpdater({
             <label className="label-text">Home</label>
             <input
               type="text"
-              className="input input-bordered"
+              className="input input-bordered w-20"
               name="homeNumber"
               value={homeNumber}
               onChange={(e) => setHomeNumber(e.target.value)}
@@ -108,12 +108,12 @@ export default function ClientUpdater({
             />
           </label>
         </div>
-        <div className="flex flex-row">
+        <div className="flex flex-row flex-wrap justify-center">
           <label className="form-control">
             <label className="label-text">Zip code</label>
             <input
               type="text"
-              className="input input-bordered"
+              className="input input-bordered w-36 mr-1"
               name="zipCode"
               value={zipCode}
               onChange={(e) => setZipCode(e.target.value)}
@@ -124,7 +124,7 @@ export default function ClientUpdater({
             <label className="label-text">City</label>
             <input
               type="text"
-              className="input input-bordered"
+              className="input input-bordered w-44"
               name="city"
               value={city}
               onChange={(e) => setCity(e.target.value)}
