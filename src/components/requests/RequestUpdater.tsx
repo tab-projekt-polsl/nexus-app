@@ -29,80 +29,83 @@ export default function RequestUpdater({
   const [employeeId, setEmployeeId] = useState<number>(request.employeeId);
 
   return (
-    <form
-      action={updateAction}
-      method="post"
-      className="flex flex-col space-y-4"
-    >
-      <input type="hidden" name="id" value={request.id} />
-      <input type="hidden" name="isUpdate" value="yes" />
-      <input type="hidden" name="result" value={request.result ? "1" : "0"} />
-      <input type="hidden" name="status" value={request.status} />
-      <input
-        type="hidden"
-        name="dateReg"
-        value={request.dateReg.toISOString()}
-      />
-      <label className="form-control">
-        <label className="label-text">Description</label>
+    <div className="card-body h-full">
+      <h2 className="card-title">Edit Request R-{request.id}</h2>
+      <form
+        action={updateAction}
+        method="post"
+        className="flex flex-col space-y-4"
+      >
+        <input type="hidden" name="id" value={request.id} />
+        <input type="hidden" name="isUpdate" value="yes" />
+        <input type="hidden" name="result" value={request.result ? "1" : "0"} />
+        <input type="hidden" name="status" value={request.status} />
         <input
-          type="text"
-          className="input input-bordered"
-          name="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Type here..."
-          required
+          type="hidden"
+          name="dateReg"
+          value={request.dateReg.toISOString()}
         />
-      </label>
-      <label className="form-control">
-        <label className="label-text">Finish date</label>
-        <input
-          type="date"
-          className="input input-bordered"
-          name="dateFinCancel"
-          value={dateFinCancel}
-          onChange={(e) => setDateFinCancel(e.target.value)}
-          required
-        />
-      </label>
-      <label className="form-control">
-        <label className="label-text">Select object</label>
-        <select
-          className="select select-bordered"
-          name="objectId"
-          value={objectId}
-          onChange={(e) => setObjectId(parseInt(e.target.value, 10))}
-          required
-        >
-          <option value="">Select an object</option>
-          {objects.map((object: SelectedObject, index) => (
-            <option key={index} value={object.id}>
-              {object.name}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="form-control">
-        <label className="label-text">Select employee</label>
-        <select
-          className="select select-bordered"
-          name="employeeId"
-          value={employeeId}
-          onChange={(e) => setEmployeeId(parseInt(e.target.value, 10))}
-          required
-        >
-          <option value="">Select an employee</option>
-          {employees.map((employee: SelectedEmployee, index) => (
-            <option key={index} value={employee.id}>
-              {employee.fname + " " + employee.lname}
-            </option>
-          ))}
-        </select>
-      </label>
-      <button className={"btn btn-outline " + className} type="submit">
-        Edit Request
-      </button>
-    </form>
+        <label className="form-control">
+          <label className="label-text">Description</label>
+          <input
+            type="text"
+            className="input input-bordered"
+            name="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Type here..."
+            required
+          />
+        </label>
+        <label className="form-control">
+          <label className="label-text">Finish date</label>
+          <input
+            type="date"
+            className="input input-bordered"
+            name="dateFinCancel"
+            value={dateFinCancel}
+            onChange={(e) => setDateFinCancel(e.target.value)}
+            required
+          />
+        </label>
+        <label className="form-control">
+          <label className="label-text">Select object</label>
+          <select
+            className="select select-bordered"
+            name="objectId"
+            value={objectId}
+            onChange={(e) => setObjectId(parseInt(e.target.value, 10))}
+            required
+          >
+            <option value="">Select an object</option>
+            {objects.map((object: SelectedObject, index) => (
+              <option key={index} value={object.id}>
+                {object.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="form-control">
+          <label className="label-text">Select employee</label>
+          <select
+            className="select select-bordered"
+            name="employeeId"
+            value={employeeId}
+            onChange={(e) => setEmployeeId(parseInt(e.target.value, 10))}
+            required
+          >
+            <option value="">Select an employee</option>
+            {employees.map((employee: SelectedEmployee, index) => (
+              <option key={index} value={employee.id}>
+                {employee.fname + " " + employee.lname}
+              </option>
+            ))}
+          </select>
+        </label>
+        <button className={"btn btn-outline " + className} type="submit">
+          Edit Request
+        </button>
+      </form>
+    </div>
   );
 }

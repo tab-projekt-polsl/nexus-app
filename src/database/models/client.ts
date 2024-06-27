@@ -12,11 +12,6 @@ Client.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
     fname: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -52,7 +52,7 @@ export namespace Tester {
       status: ACTIVITY_STATUS_ENUM.DONE,
       dateReg: new Date(),
       dateFinCancel: new Date(),
-      actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
+      actType: ACTIVITY_TYPE_ENUM.HARD,
       requestId: 18,
       employeeId: 21,
     });
@@ -63,7 +63,7 @@ export namespace Tester {
       status: ACTIVITY_STATUS_ENUM.TODO,
       dateReg: new Date(),
       dateFinCancel: new Date(),
-      actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
+      actType: ACTIVITY_TYPE_ENUM.MEDIUM,
       requestId: 18,
       employeeId: 21,
     });
@@ -74,7 +74,7 @@ export namespace Tester {
       status: ACTIVITY_STATUS_ENUM.IN_PROGRESS,
       dateReg: new Date(),
       dateFinCancel: new Date(),
-      actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
+      actType: ACTIVITY_TYPE_ENUM.EASY,
       requestId: 18,
       employeeId: 25,
     });
@@ -100,14 +100,14 @@ export namespace Tester {
 
   export function addSampleClients(): void {
     ClientController.createClient({
-      name: "First client1",
+      // name: "First client1",
       fname: "First",
       lname: "Client",
       tel: 1234567890,
       addressId: 1,
     });
     ClientController.createClient({
-      name: "Second client1",
+      // name: "Second client1",
       fname: "Second",
       lname: "Client",
       tel: 1234567890,

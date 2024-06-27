@@ -51,7 +51,9 @@ export default async function RequestDetails({ requestId }: Props) {
         <div>
           {client ? "Client:" : ""}
           <div className="btn ml-2">
-            <Link href={`/management/client/${client.id}`}>{client.name}</Link>
+            <Link href={`/management/client/${client.id}`}>
+              {client.fname + " " + client.lname}
+            </Link>
           </div>
         </div>
         <div>

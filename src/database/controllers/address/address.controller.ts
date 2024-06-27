@@ -1,5 +1,6 @@
 import Address from "@/database/models/address";
 import type { CreateAddressDTO, SelectedAddress } from "./address.dto";
+import { revalidatePath } from "next/cache";
 
 // Makes me do a module and then doesn't like the module either >:(
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -23,6 +24,7 @@ export namespace AddressController {
     field: keyof CreateAddressDTO,
     value: any,
   ): Promise<[affectedCount: number]> {
+    "use server";
     return Address.update(
       { [field]: value },
       {
@@ -31,6 +33,27 @@ export namespace AddressController {
         },
       },
     );
+  }
+
+  export async function updateAddressByClientIdAction(
+    formData: FormData,
+  ): Promise<[affectedCount: number]> {
+    "use server";
+    const response = Address.update(
+      {
+        city: formData.get("city"),
+        street: formData.get("street"),
+        homeNumber: formData.get("homeNumber"),
+        zipCode: formData.get("zipCode"),
+      },
+      {
+        where: {
+          clientId: formData.get("clientId"),
+        },
+      },
+    );
+    revalidatePath(`/management`);
+    return response;
   }
 
   /**
@@ -65,11 +88,18 @@ export namespace AddressController {
     });
   }
 
-  export async function getAdressByClientId(clientId: number) {
+  export async function getAddressByClientId(
+    clientId: number,
+  ): Promise<SelectedAddress | null> {
     return await Address.findOne({
       where: {
         clientId: clientId,
       },
+    }).then((address) => {
+      if (!address) {
+        return null;
+      }
+      return address?.toJSON();
     });
   }
 

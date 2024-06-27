@@ -2,11 +2,14 @@
 
 import Client from "@/database/models/client";
 import type { CreateClientDTO, SelectedClient } from "./client.dto";
+import { CLIENT_FIELDS } from "./client.dto";
 import type { SelectedRequest } from "../request/request.dto";
 import type Address from "@/database/models/address";
 import { ObjectController } from "../object/object.controller";
 import { RequestController } from "../request/request.controller";
 import { AddressController } from "../address/address.controller";
+import { revalidatePath } from "next/cache";
+import { SelectedAddress } from "@/database/controllers/address/address.dto";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ClientController {
@@ -17,7 +20,7 @@ export namespace ClientController {
       throw new Error("Client info is required");
     }
     return Client.create({
-      name: clientInfo.name,
+      // name: clientInfo.name,
       fname: clientInfo.fname,
       lname: clientInfo.lname,
       tel: clientInfo.tel,
@@ -26,10 +29,11 @@ export namespace ClientController {
   }
 
   export async function updateClient(
-    id: number,
-    field: keyof CreateClientDTO,
+    id: any,
+    field: any,
     value: any,
   ): Promise<[affectedCount: number]> {
+    "use server";
     return Client.update(
       { [field]: value },
       {
@@ -38,6 +42,26 @@ export namespace ClientController {
         },
       },
     );
+  }
+  // server action with form
+  export async function updateClientAction(formData: FormData) {
+    "use server";
+    if (!(formData.get("isUpdate") === "yes")) {
+      const response = updateClient(
+        formData.get("id"),
+        formData.get("field"),
+        formData.get("value"),
+      );
+      revalidatePath(`/management`);
+      return response;
+    } else {
+      const fields = Object.values(CLIENT_FIELDS) as string[];
+      for (const field of fields) {
+        await updateClient(formData.get("id"), field, formData.get(field));
+      }
+      revalidatePath(`/management`);
+      return true;
+    }
   }
 
   export async function getRequestsByClientId(
@@ -54,8 +78,8 @@ export namespace ClientController {
 
   export async function getAddressByClientId(
     clientId: number,
-  ): Promise<Address | null> {
-    return AddressController.getAdressByClientId(clientId);
+  ): Promise<SelectedAddress | null> {
+    return AddressController.getAddressByClientId(clientId);
   }
 
   /**
@@ -74,7 +98,7 @@ export namespace ClientController {
   export function obliterate(): void {
     Client.destroy({
       where: {},
-    });
+    }).then();
   }
 
   export async function getClient(id: number): Promise<SelectedClient> {
