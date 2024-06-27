@@ -3,10 +3,10 @@
 import Client from "@/database/models/client";
 import type { CreateClientDTO, SelectedClient } from "./client.dto";
 import type { SelectedRequest } from "../request/request.dto";
-import type Address from "@/database/models/address";
 import { ObjectController } from "../object/object.controller";
 import { RequestController } from "../request/request.controller";
 import { AddressController } from "../address/address.controller";
+import type { SelectedAddress } from "../address/address.dto";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ClientController {
@@ -54,7 +54,7 @@ export namespace ClientController {
 
   export async function getAddressByClientId(
     clientId: number,
-  ): Promise<Address | null> {
+  ): Promise<SelectedAddress | null> {
     return AddressController.getAdressByClientId(clientId);
   }
 

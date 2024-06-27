@@ -65,11 +65,18 @@ export namespace AddressController {
     });
   }
 
-  export async function getAdressByClientId(clientId: number) {
+  export async function getAdressByClientId(
+    clientId: number,
+  ): Promise<SelectedAddress | null> {
     return await Address.findOne({
       where: {
         clientId: clientId,
       },
+    }).then((address) => {
+      if (!address) {
+        return null;
+      }
+      return address?.toJSON();
     });
   }
 
