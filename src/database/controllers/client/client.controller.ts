@@ -4,18 +4,18 @@ import Client from "@/database/models/client";
 import type { CreateClientDTO, SelectedClient } from "./client.dto";
 import { CLIENT_FIELDS } from "./client.dto";
 import type { SelectedRequest } from "../request/request.dto";
-import type Address from "@/database/models/address";
 import { ObjectController } from "../object/object.controller";
 import { RequestController } from "../request/request.controller";
 import { AddressController } from "../address/address.controller";
 import { revalidatePath } from "next/cache";
-import { SelectedAddress } from "@/database/controllers/address/address.dto";
+import type { SelectedAddress } from "@/database/controllers/address/address.dto";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ClientController {
   export async function createClient(
     clientInfo: CreateClientDTO,
   ): Promise<Client> {
+    "use server";
     if (!clientInfo) {
       throw new Error("Client info is required");
     }
@@ -24,8 +24,25 @@ export namespace ClientController {
       fname: clientInfo.fname,
       lname: clientInfo.lname,
       tel: clientInfo.tel,
-      addressId: clientInfo.addressId,
     });
+  }
+
+  export async function createClientAction(formData: FormData) {
+    "use server";
+    const response = await createClient({
+      fname: formData.get("fname") as string,
+      lname: formData.get("lname") as string,
+      tel: parseInt(formData.get("tel") as string, 10),
+    });
+    await AddressController.createAddress({
+      city: formData.get("city") as string,
+      street: formData.get("street") as string,
+      homeNumber: formData.get("homeNumber") as string,
+      zipCode: formData.get("zipCode") as string,
+      clientId: response.dataValues.id,
+    });
+    revalidatePath(`/management`);
+    return response;
   }
 
   export async function updateClient(

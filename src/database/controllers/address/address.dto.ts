@@ -9,9 +9,9 @@ export interface CreateAddressDTO {
   street: string;
   homeNumber: string;
   zipCode: string;
+  clientId: number;
 }
 
 export interface SelectedAddress extends CreateAddressDTO {
   id: number;
-  clientId: number;
 }

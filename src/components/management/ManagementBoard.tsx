@@ -1,16 +1,15 @@
-import { ActivityController } from "@/database/controllers/activity/activity.controller";
 import { ModalParent } from "@/components/ModalParent";
-import { RequestController } from "@/database/controllers/request/request.controller";
 import { EmployeeController } from "@/database/controllers/employee/employee.controller";
-import ActivityCreator from "@/components/activities/ActivityCreator";
 import { ClientController } from "@/database/controllers/client/client.controller";
 import { ObjectController } from "@/database/controllers/object/object.controller";
-import { SelectedClient } from "@/database/controllers/client/client.dto";
+import type { SelectedClient } from "@/database/controllers/client/client.dto";
 import ClientCard from "@/components/management/client/ClientCard";
-import { SelectedEmployee } from "@/database/controllers/employee/employee.dto";
+import type { SelectedEmployee } from "@/database/controllers/employee/employee.dto";
 import ObjectCard from "@/components/management/object/ObjectCard";
 import EmployeeCard from "@/components/management/employee/EmployeeCard";
 import { AddressController } from "@/database/controllers/address/address.controller";
+import ClientCreator from "@/components/management/client/ClientCreator";
+import createClientAction = ClientController.createClientAction;
 
 interface Props {
   focusOn?: number;
@@ -26,6 +25,12 @@ export default async function ManagementBoard({ focusOn, focusItem }: Props) {
       <div className="card min-w-96 bg-base-300 shadow-xl m-5">
         <div className="card-body items-center">
           <h2 className="card-title mb-5">Clients</h2>
+          <ModalParent
+            buttonText="Add Client"
+            className="btn btn-outline w-10/12"
+          >
+            <ClientCreator createAction={createClientAction} />
+          </ModalParent>
           {clients.map(async (client: SelectedClient, index) => (
             <ClientCard
               className=""

@@ -3,7 +3,6 @@ export interface CreateClientDTO {
   fname: string;
   lname: string;
   tel: number;
-  addressId: number;
 }
 
 export enum CLIENT_FIELDS {

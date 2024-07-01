@@ -16,6 +16,7 @@ export namespace AddressController {
       street: addressInfo.street,
       homeNumber: addressInfo.homeNumber,
       zipCode: addressInfo.zipCode,
+      clientId: addressInfo.clientId,
     });
   }
 
