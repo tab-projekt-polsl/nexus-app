@@ -32,6 +32,7 @@ export namespace ActivityController {
   export async function createActivity(
     activityInfo: CreateActivityDTO,
   ): Promise<Activity> {
+    "use server";
     if (!activityInfo) {
       throw new Error("Activity info is required");
     }
