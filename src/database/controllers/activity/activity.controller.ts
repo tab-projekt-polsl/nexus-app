@@ -32,12 +32,25 @@ export namespace ActivityController {
   export async function createActivity(
     activityInfo: CreateActivityDTO,
   ): Promise<Activity> {
-    "use server";
     if (!activityInfo) {
       throw new Error("Activity info is required");
     }
+    let newSeqNum = 1;
+    Activity.findAll({ where: { requestId: activityInfo.requestId } }).then(
+      (activities) => {
+        if (activities.length > 0) {
+          newSeqNum = activities.reduce((maxSeqNum, activity) => {
+            const newAct = activity.toJSON();
+            return newAct.sequenceNum > maxSeqNum
+              ? newAct.sequenceNum
+              : maxSeqNum;
+          }, 0);
+          newSeqNum++;
+        }
+      },
+    );
     return Activity.create({
-      sequenceNum: activityInfo.sequenceNum,
+      sequenceNum: newSeqNum,
       description: activityInfo.description,
       result: activityInfo.result,
       status: activityInfo.status,
