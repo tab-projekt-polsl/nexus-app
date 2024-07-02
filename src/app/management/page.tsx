@@ -1,7 +1,7 @@
-import { Tester } from "@/database/tester";
+// import { Tester } from "@/database/tester";
 import ManagementBoard from "@/components/management/ManagementBoard";
 
 export default function ManagementBoardPage() {
-  Tester.syncAllModelsAndTest();
+  // Tester.syncAllModelsAndTest();
   return <ManagementBoard />;
 }
