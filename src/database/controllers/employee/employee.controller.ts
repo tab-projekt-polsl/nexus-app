@@ -3,7 +3,11 @@
 import Employee from "@/database/models/employee";
 import * as bcrypt from "bcrypt";
 import { jwtVerify, SignJWT } from "jose";
-import type { CreateEmployeeDTO, SelectedEmployee } from "./employee.dto";
+import type {
+  CreateEmployeeDTO,
+  EMPLOYEE_ROLE,
+  SelectedEmployee,
+} from "./employee.dto";
 import { EMPLOYEE_FIELDS } from "./employee.dto";
 import { getJwtSecretKey } from "@/libs/auth";
 import type { LoginResponse } from "./login-response.dto";
@@ -63,6 +67,7 @@ export namespace EmployeeController {
   export async function createEmployee(
     employeeInfo: CreateEmployeeDTO,
   ): Promise<Employee> {
+    "use server";
     if (!employeeInfo) {
       throw new Error("Employee info is required");
     }
@@ -75,6 +80,19 @@ export namespace EmployeeController {
       uname: employeeInfo.uname,
       password: hashedPassword,
     });
+  }
+
+  export async function createEmployeeAction(formData: FormData) {
+    "use server";
+    const employeeInfo = {
+      fname: formData.get("fname") as string,
+      lname: formData.get("lname") as string,
+      role: formData.get("role") as EMPLOYEE_ROLE,
+      uname: formData.get("uname") as string,
+      password: formData.get("password") as string,
+    };
+    await createEmployee(employeeInfo);
+    revalidatePath(`/management`);
   }
 
   export async function updateEmployee(
@@ -98,8 +116,6 @@ export namespace EmployeeController {
     const fields = Object.values(EMPLOYEE_FIELDS) as string[];
     for (const field of fields) {
       if (formData.get(field)) {
-        console.log(field);
-        console.log(formData.get(field));
         await updateEmployee(
           parseInt(formData.get("id") as string, 10),
           field,

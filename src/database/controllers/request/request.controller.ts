@@ -74,6 +74,22 @@ export namespace RequestController {
     return true;
   }
 
+  export async function updateRequestStatus(formData: FormData) {
+    "use server";
+    await updateRequest(formData.get("id"), "status", formData.get("value"));
+    revalidatePath(`/requests/board`);
+  }
+
+  export async function updateRequestResult(formData: FormData) {
+    "use server";
+    await updateRequest(
+      formData.get("id"),
+      "result",
+      formData.get("value") === "1",
+    );
+    revalidatePath(`/requests/board`);
+  }
+
   /**
    *
    * @param id id to delete

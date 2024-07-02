@@ -14,7 +14,6 @@ import {
 } from "@/database/controllers/activity/activity.dto";
 import { RequestController } from "@/database/controllers/request/request.controller";
 import { REQUEST_STATUS_ENUM } from "@/database/controllers/request/request.dto";
-import { log } from "console";
 import { ObjectController } from "@/database/controllers/object/object.controller";
 import { OBJECT_TYPE_ENUM } from "@/database/controllers/object/object.dto";
 import { ClientController } from "@/database/controllers/client/client.controller";
@@ -104,14 +103,12 @@ export namespace Tester {
       fname: "First",
       lname: "Client",
       tel: 1234567890,
-      addressId: 1,
     });
     ClientController.createClient({
       // name: "Second client1",
       fname: "Second",
       lname: "Client",
       tel: 1234567890,
-      addressId: 2,
     });
   }
 
@@ -145,18 +142,21 @@ export namespace Tester {
       street: "First street",
       homeNumber: "1",
       zipCode: "12345",
+      clientId: 5,
     });
     AddressController.createAddress({
       city: "Second city",
       street: "Second street",
       homeNumber: "2",
       zipCode: "23456",
+      clientId: 6,
     });
     AddressController.createAddress({
       city: "Third city",
       street: "Third street",
       homeNumber: "3",
       zipCode: "34567",
+      clientId: 9,
     });
   }
 

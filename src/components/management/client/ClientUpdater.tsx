@@ -37,7 +37,6 @@ export default function ClientUpdater({
         className="flex flex-col space-y-4"
       >
         <input type="hidden" name="id" value={client.id} />
-        <input type="hidden" name="isUpdate" value="yes" />
         <label className="form-control">
           <label className="label-text">First name</label>
           <input

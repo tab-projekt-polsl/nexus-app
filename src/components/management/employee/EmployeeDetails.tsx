@@ -14,7 +14,7 @@ export default async function EmployeeDetails({ employeeId }: Props) {
   return (
     <div className=" bg-base-100 h-full">
       <div className="card-body h-full">
-        <h2 className="card-title">{employee.fname + employee.lname}</h2>
+        <h2 className="card-title">{employee.fname + " " + employee.lname}</h2>
         <p>Role: {employee.role}</p>
         <p>Username: {employee.uname}</p>
         <div className="">

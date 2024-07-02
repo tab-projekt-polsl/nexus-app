@@ -55,17 +55,17 @@ export default async function ActivityCard({
       </div>
       <div className="card-actions justify-center mb-5">
         <ResultSwitcher
-          updateAction={ActivityController.updateActivityAction}
+          updateAction={ActivityController.updateActivityResult}
           item={activity}
         />
         <StatusSwitcher
-          updateAction={ActivityController.updateActivityAction}
+          updateAction={ActivityController.updateActivityStatus}
           array={statusCarousel}
           item={activity}
           direction={false}
         />
         <StatusSwitcher
-          updateAction={ActivityController.updateActivityAction}
+          updateAction={ActivityController.updateActivityStatus}
           array={statusCarousel}
           item={activity}
           direction={true}

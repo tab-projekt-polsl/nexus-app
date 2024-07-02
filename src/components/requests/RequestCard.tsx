@@ -55,17 +55,17 @@ export default async function RequestCard({
       </div>
       <div className="card-actions justify-center mb-5">
         <ResultSwitcher
-          updateAction={RequestController.updateRequestAction}
+          updateAction={RequestController.updateRequestResult}
           item={request}
         />
         <StatusSwitcher
-          updateAction={RequestController.updateRequestAction}
+          updateAction={RequestController.updateRequestStatus}
           array={statusCarousel}
           item={request}
           direction={false}
         />
         <StatusSwitcher
-          updateAction={RequestController.updateRequestAction}
+          updateAction={RequestController.updateRequestStatus}
           array={statusCarousel}
           item={request}
           direction={true}

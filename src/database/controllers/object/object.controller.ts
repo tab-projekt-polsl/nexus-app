@@ -1,7 +1,11 @@
 // Makes me do a module and then doesn't like the module either >:(
 
 import DbObject from "@/database/models/object";
-import type { CreateObjectDTO, SelectedObject } from "./object.dto";
+import type {
+  CreateObjectDTO,
+  OBJECT_TYPE_ENUM,
+  SelectedObject,
+} from "./object.dto";
 import { OBJECT_FIELDS } from "./object.dto";
 import { revalidatePath } from "next/cache";
 
@@ -10,14 +14,25 @@ export namespace ObjectController {
   export async function createObject(
     objectInfo: CreateObjectDTO,
   ): Promise<DbObject> {
+    "use server";
     if (!objectInfo) {
       throw new Error("Object info is required");
     }
     return DbObject.create({
       name: objectInfo.name,
-      objType: objectInfo.objectType,
+      objectType: objectInfo.objectType,
       clientId: objectInfo.clientId,
     });
+  }
+
+  export async function createObjectAction(formData: FormData) {
+    "use server";
+    await createObject({
+      name: formData.get("name") as string,
+      objectType: formData.get("objectType") as OBJECT_TYPE_ENUM,
+      clientId: parseInt(formData.get("clientId") as string, 10),
+    });
+    revalidatePath(`/management`);
   }
 
   export async function updateObject(

@@ -92,6 +92,22 @@ export namespace ActivityController {
     return true;
   }
 
+  export async function updateActivityStatus(formData: FormData) {
+    "use server";
+    await updateActivity(formData.get("id"), "status", formData.get("value"));
+    revalidatePath(`/activities/board`);
+  }
+
+  export async function updateActivityResult(formData: FormData) {
+    "use server";
+    await updateActivity(
+      formData.get("id"),
+      "result",
+      formData.get("value") === "1",
+    );
+    revalidatePath(`/activities/board`);
+  }
+
   export async function getActivitiesByEmployeeId(
     id: number,
   ): Promise<SelectedActivity[]> {

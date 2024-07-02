@@ -34,7 +34,6 @@ export default async function ClientCard({
         </div>
         <ModalParent
           buttonText="Edit"
-          initialState={focus}
           className="transition-all ease-in-out opacity-0 group-hover:opacity-100 text-gray-500"
         >
           <ClientUpdater

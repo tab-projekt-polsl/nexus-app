@@ -5,11 +5,17 @@ import { ObjectController } from "@/database/controllers/object/object.controlle
 import type { SelectedClient } from "@/database/controllers/client/client.dto";
 import ClientCard from "@/components/management/client/ClientCard";
 import type { SelectedEmployee } from "@/database/controllers/employee/employee.dto";
+import { EMPLOYEE_ROLE } from "@/database/controllers/employee/employee.dto";
 import ObjectCard from "@/components/management/object/ObjectCard";
 import EmployeeCard from "@/components/management/employee/EmployeeCard";
 import { AddressController } from "@/database/controllers/address/address.controller";
 import ClientCreator from "@/components/management/client/ClientCreator";
 import createClientAction = ClientController.createClientAction;
+import ObjectCreator from "@/components/management/object/ObjectCreator";
+import createObjectAction = ObjectController.createObjectAction;
+import { OBJECT_TYPE_ENUM } from "@/database/controllers/object/object.dto";
+import EmployeeCreator from "@/components/management/employee/EmployeeCreator";
+import createEmployeeAction = EmployeeController.createEmployeeAction;
 
 interface Props {
   focusOn?: number;
@@ -33,7 +39,7 @@ export default async function ManagementBoard({ focusOn, focusItem }: Props) {
           </ModalParent>
           {clients.map(async (client: SelectedClient, index) => (
             <ClientCard
-              className=""
+              className="mb-5"
               key={index}
               client={client}
               /* eslint-disable-next-line eqeqeq */
@@ -47,14 +53,17 @@ export default async function ManagementBoard({ focusOn, focusItem }: Props) {
         <div className="card-body items-center">
           <h2 className="card-title mb-5">Employees</h2>
           <ModalParent
-            buttonText="Add Employee"
+            buttonText="Register an Employee"
             className="btn btn-outline w-10/12 mb-2"
           >
-            <ClientCreator createAction={createClientAction} />
+            <EmployeeCreator
+              createAction={createEmployeeAction}
+              roles={Object.values(EMPLOYEE_ROLE) as string[]}
+            />
           </ModalParent>
           {employees.map((employee: SelectedEmployee, index) => (
             <EmployeeCard
-              className=""
+              className="mb-5"
               key={index}
               employee={employee}
               /* eslint-disable-next-line eqeqeq */
@@ -70,11 +79,15 @@ export default async function ManagementBoard({ focusOn, focusItem }: Props) {
             buttonText="Add Object"
             className="btn btn-outline w-10/12 mb-2"
           >
-            <ClientCreator createAction={createClientAction} />
+            <ObjectCreator
+              createAction={createObjectAction}
+              types={Object.values(OBJECT_TYPE_ENUM)}
+              clients={clients}
+            />
           </ModalParent>
           {objects.map((object, index) => (
             <ObjectCard
-              className=""
+              className="mb-5"
               key={index}
               object={object}
               /* eslint-disable-next-line eqeqeq */

@@ -17,7 +17,7 @@ DbObject.init(
       allowNull: false,
       unique: true,
     },
-    objType: {
+    objectType: {
       // TODO: come up with enum values
       // chance that it's supposed to be a table, not enum
       type: DataTypes.ENUM(...(Object.values(OBJECT_TYPE_ENUM) as string[])),
