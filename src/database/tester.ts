@@ -14,7 +14,6 @@ import {
 } from "@/database/controllers/activity/activity.dto";
 import { RequestController } from "@/database/controllers/request/request.controller";
 import { REQUEST_STATUS_ENUM } from "@/database/controllers/request/request.dto";
-import { log } from "console";
 import { ObjectController } from "@/database/controllers/object/object.controller";
 import { OBJECT_TYPE_ENUM } from "@/database/controllers/object/object.dto";
 import { ClientController } from "@/database/controllers/client/client.controller";
@@ -25,54 +24,58 @@ import { AddressController } from "@/database/controllers/address/address.contro
 export namespace Tester {
   export function addSamepleRequests(): void {
     RequestController.createRequest({
-      description: "First request",
+      description: "Test1",
       result: true,
       status: REQUEST_STATUS_ENUM.DONE,
       dateReg: new Date(),
       dateFinCancel: new Date(),
+      objectId: 13,
+      employeeId: 21,
     });
     RequestController.createRequest({
-      description: "Second request",
+      description: "Test2",
       result: false,
       status: REQUEST_STATUS_ENUM.TODO,
       dateReg: new Date(),
       dateFinCancel: new Date(),
+      objectId: 13,
+      employeeId: 21,
     });
   }
 
   export function addSampleActivities(): void {
     ActivityController.createActivity({
-      sequenceNum: 1,
+      // sequenceNum: 1,
       description: "First activity",
       result: true,
       status: ACTIVITY_STATUS_ENUM.DONE,
       dateReg: new Date(),
       dateFinCancel: new Date(),
-      actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
-      requestId: 3,
-      employeeId: 11,
+      actType: ACTIVITY_TYPE_ENUM.HARD,
+      requestId: 18,
+      employeeId: 21,
     });
     ActivityController.createActivity({
-      sequenceNum: 2,
+      // sequenceNum: 2,
       description: "Second activity",
       result: false,
       status: ACTIVITY_STATUS_ENUM.TODO,
       dateReg: new Date(),
       dateFinCancel: new Date(),
-      actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
-      requestId: 3,
-      employeeId: 12,
+      actType: ACTIVITY_TYPE_ENUM.MEDIUM,
+      requestId: 18,
+      employeeId: 21,
     });
     ActivityController.createActivity({
-      sequenceNum: 3,
+      // sequenceNum: 3,
       description: "Third activity",
       result: false,
       status: ACTIVITY_STATUS_ENUM.IN_PROGRESS,
       dateReg: new Date(),
       dateFinCancel: new Date(),
-      actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
-      requestId: 4,
-      employeeId: 10,
+      actType: ACTIVITY_TYPE_ENUM.EASY,
+      requestId: 18,
+      employeeId: 25,
     });
   }
 
@@ -80,29 +83,29 @@ export namespace Tester {
     ObjectController.createObject({
       name: "First object",
       objectType: OBJECT_TYPE_ENUM.OBJ1,
-      clientId: 3,
+      clientId: 5,
     });
     ObjectController.createObject({
       name: "Second object",
       objectType: OBJECT_TYPE_ENUM.OBJ2,
-      clientId: 3,
+      clientId: 6,
     });
     ObjectController.createObject({
       name: "Third object",
       objectType: OBJECT_TYPE_ENUM.OBJ3,
-      clientId: 4,
+      clientId: 9,
     });
   }
 
   export function addSampleClients(): void {
     ClientController.createClient({
-      name: "First client",
+      // name: "First client1",
       fname: "First",
       lname: "Client",
       tel: 1234567890,
     });
     ClientController.createClient({
-      name: "Second client",
+      // name: "Second client1",
       fname: "Second",
       lname: "Client",
       tel: 1234567890,
@@ -114,21 +117,21 @@ export namespace Tester {
       fname: "First",
       lname: "Employee",
       role: EMPLOYEE_ROLE.ADMIN,
-      uname: "admin1",
+      uname: "admin2",
       password: "admin",
     });
     EmployeeController.createEmployee({
       fname: "Second",
       lname: "Employee",
       role: EMPLOYEE_ROLE.MANAGER,
-      uname: "manager1",
+      uname: "manager2",
       password: "manager",
     });
     EmployeeController.createEmployee({
       fname: "Third",
       lname: "Employee",
       role: EMPLOYEE_ROLE.WORKER,
-      uname: "worker1",
+      uname: "worker2",
       password: "worker",
     });
   }
@@ -139,18 +142,21 @@ export namespace Tester {
       street: "First street",
       homeNumber: "1",
       zipCode: "12345",
+      clientId: 5,
     });
     AddressController.createAddress({
       city: "Second city",
       street: "Second street",
       homeNumber: "2",
       zipCode: "23456",
+      clientId: 6,
     });
     AddressController.createAddress({
       city: "Third city",
       street: "Third street",
       homeNumber: "3",
       zipCode: "34567",
+      clientId: 9,
     });
   }
 
@@ -194,11 +200,30 @@ export namespace Tester {
     /* ObjectController.getObjects().then((objects) => {
       log(objects);
     }); */
-    /* RequestController.getRequests().then((requests) => {
+    /*     RequestController.getRequests().then((requests) => {
       log(requests);
     }); */
     /* ActivityController.getActivities().then((activities) => {
       console.log(activities);
     }); */
+    /* ClientController.getRequestsByClientId(5).then((requests) => {
+      console.log(requests);
+    }); */
+    /* ActivityController.updateActivity(
+      16,
+      "description",
+      "Updated description",
+    ).then((affectedCount) => {
+      console.log(affectedCount);
+    }); */
+    /* EmployeeController.loginEmployee("worker2", "worker").then((response) => {
+      EmployeeController.isTokenValid(response.token).then((isValid) => {
+        console.log(isValid);
+      });
+    }); */
+    /* RequestController.getClientByRequestId(24).then((client) => {
+      log(client);
+    }); */
+    // wipeData();
   }
 }

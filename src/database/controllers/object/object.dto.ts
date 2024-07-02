@@ -10,6 +10,12 @@ export interface CreateObjectDTO {
   clientId: number;
 }
 
+export enum OBJECT_FIELDS {
+  NAME = "name",
+  OBJECT_TYPE = "objectType",
+  CLIENT_ID = "clientId",
+}
+
 export interface SelectedObject extends CreateObjectDTO {
   id: number;
 }

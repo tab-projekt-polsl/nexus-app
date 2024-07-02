@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "sync": "tsx src/database/syncModels.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -10,16 +11,25 @@
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "bcrypt": "^5.1.1",
+    "fs": "^0.0.1-security",
+    "jose": "^5.4.1",
+    "moment": "^2.30.1",
     "mysql2": "^3.9.7",
+    "net": "^1.0.2",
     "next": "^14.2.3",
     "prettier": "^3.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "sequelize": "^6.37.3"
+    "react-icons": "^5.2.1",
+    "sequelize": "^6.37.3",
+    "tls": "^0.0.1",
+    "tsx": "^4.16.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.5",
     "@babel/eslint-parser": "^7.24.5",
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

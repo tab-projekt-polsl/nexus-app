@@ -6,11 +6,13 @@ export enum ACTIVITY_STATUS_ENUM {
 }
 
 export enum ACTIVITY_TYPE_ENUM {
-  ACTIVITY_TYPE = "activity types",
+  EASY = "easy",
+  MEDIUM = "medium",
+  HARD = "hard",
 }
 
 export interface CreateActivityDTO {
-  sequenceNum: number;
+  // sequenceNum: number;
   description: string;
   result: boolean;
   status: ACTIVITY_STATUS_ENUM;
@@ -21,8 +23,21 @@ export interface CreateActivityDTO {
   employeeId: number;
 }
 
+export enum ACTIVITY_FIELDS {
+  SEQUENCE_NUM = "sequenceNum",
+  DESCRIPTION = "description",
+  RESULT = "result",
+  STATUS = "status",
+  DATE_REG = "dateReg",
+  DATE_FIN_CANCEL = "dateFinCancel",
+  ACT_TYPE = "actType",
+  REQUEST_ID = "requestId",
+  EMPLOYEE_ID = "employeeId",
+}
+
 export interface SelectedActivity extends CreateActivityDTO {
   id: number;
+  sequenceNum: number;
   requestId: number;
   employeeId: number;
 }

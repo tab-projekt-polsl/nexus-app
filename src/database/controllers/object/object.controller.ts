@@ -1,27 +1,70 @@
 // Makes me do a module and then doesn't like the module either >:(
 
 import DbObject from "@/database/models/object";
-import type { CreateObjectDTO, SelectedObject } from "./object.dto";
+import type {
+  CreateObjectDTO,
+  OBJECT_TYPE_ENUM,
+  SelectedObject,
+} from "./object.dto";
+import { OBJECT_FIELDS } from "./object.dto";
+import { revalidatePath } from "next/cache";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ObjectController {
   export async function createObject(
     objectInfo: CreateObjectDTO,
   ): Promise<DbObject> {
+    "use server";
     if (!objectInfo) {
       throw new Error("Object info is required");
     }
     return DbObject.create({
       name: objectInfo.name,
-      objType: objectInfo.objectType,
+      objectType: objectInfo.objectType,
       clientId: objectInfo.clientId,
     });
   }
 
-  export function updateObject(): void {
-    console.log("Updating activity");
+  export async function createObjectAction(formData: FormData) {
+    "use server";
+    await createObject({
+      name: formData.get("name") as string,
+      objectType: formData.get("objectType") as OBJECT_TYPE_ENUM,
+      clientId: parseInt(formData.get("clientId") as string, 10),
+    });
+    revalidatePath(`/management`);
   }
 
+  export async function updateObject(
+    id: number,
+    field: any,
+    value: any,
+  ): Promise<[affectedCount: number]> {
+    "use server";
+    return DbObject.update(
+      { [field]: value },
+      {
+        where: {
+          id,
+        },
+      },
+    );
+  }
+
+  export async function updateObjectAction(formData: FormData) {
+    "use server";
+    const fields = Object.values(OBJECT_FIELDS) as string[];
+    for (const field of fields) {
+      if (formData.has(field)) {
+        await updateObject(
+          parseInt(formData.get("id") as string, 10),
+          field,
+          formData.get(field),
+        );
+      }
+    }
+    revalidatePath(`/management`);
+  }
   /**
    *
    * @param id id to delete
@@ -49,17 +92,16 @@ export namespace ObjectController {
    * @param id id to select by
    * @returns found object
    */
-  export function getObject(id: number): Promise<SelectedObject> {
-    return DbObject.findOne({
+  export async function getObject(id: number): Promise<SelectedObject> {
+    const object = await DbObject.findOne({
       where: {
         id: id,
       },
-    }).then((activity) => {
-      if (!activity) {
-        throw new Error("Object not found");
-      }
-      return activity.toJSON();
     });
+    if (!object) {
+      throw new Error("Object not found");
+    }
+    return object.toJSON();
   }
 
   /**
@@ -73,4 +115,25 @@ export namespace ObjectController {
   export async function getObjects(): Promise<any[]> {
     return (await DbObject.findAll()).map((object) => object.toJSON());
   }
+
+  /**
+   * @example
+   * ObjectController.getObjectsByClientId(2).then((objects) => {
+   * console.log(objects);
+   * });
+   *
+   * @param clientId id to select by
+   * @returns found objects
+   */
+  export async function getObjectsByClientId(clientId: number): Promise<any[]> {
+    return (
+      await DbObject.findAll({
+        where: {
+          clientId: clientId,
+        },
+      })
+    ).map((object) => object.toJSON());
+  }
+
+  // get objects by request id
 }
