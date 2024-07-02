@@ -25,54 +25,51 @@ import { AddressController } from "@/database/controllers/address/address.contro
 export namespace Tester {
   export function addSamepleRequests(): void {
     RequestController.createRequest({
-      description: "First request",
+      description: "Test request 1",
       result: true,
       status: REQUEST_STATUS_ENUM.DONE,
       dateReg: new Date(),
       dateFinCancel: new Date(),
     });
-    RequestController.createRequest({
+    /*     RequestController.createRequest({
       description: "Second request",
       result: false,
       status: REQUEST_STATUS_ENUM.TODO,
       dateReg: new Date(),
       dateFinCancel: new Date(),
-    });
+    }); */
   }
 
   export function addSampleActivities(): void {
     ActivityController.createActivity({
-      sequenceNum: 1,
       description: "First activity",
       result: true,
       status: ACTIVITY_STATUS_ENUM.DONE,
       dateReg: new Date(),
       dateFinCancel: new Date(),
       actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
-      requestId: 3,
-      employeeId: 11,
+      requestId: 25,
+      employeeId: 20,
     });
     ActivityController.createActivity({
-      sequenceNum: 2,
       description: "Second activity",
       result: false,
       status: ACTIVITY_STATUS_ENUM.TODO,
       dateReg: new Date(),
       dateFinCancel: new Date(),
       actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
-      requestId: 3,
-      employeeId: 12,
+      requestId: 25,
+      employeeId: 20,
     });
     ActivityController.createActivity({
-      sequenceNum: 3,
       description: "Third activity",
       result: false,
       status: ACTIVITY_STATUS_ENUM.IN_PROGRESS,
       dateReg: new Date(),
       dateFinCancel: new Date(),
       actType: ACTIVITY_TYPE_ENUM.ACTIVITY_TYPE,
-      requestId: 4,
-      employeeId: 10,
+      requestId: 25,
+      employeeId: 20,
     });
   }
 
@@ -197,8 +194,12 @@ export namespace Tester {
     /* RequestController.getRequests().then((requests) => {
       log(requests);
     }); */
-    /* ActivityController.getActivities().then((activities) => {
+    /* ActivityController.getActivitiesByRequestId(25).then((activities) => {
       console.log(activities);
+    }); */
+    // ActivityController.shiftSequenceNumber(25, "right");
+    /* RequestController.getRequest(25).then((request) => {
+      console.log(request);
     }); */
   }
 }

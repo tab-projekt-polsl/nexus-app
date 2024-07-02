@@ -26,8 +26,22 @@ export namespace ActivityController {
     if (!activityInfo) {
       throw new Error("Activity info is required");
     }
+    let newSeqNum = 0;
+    Activity.findAll({ where: { requestId: activityInfo.requestId } }).then(
+      (activities) => {
+        if (activities.length > 0) {
+          newSeqNum = activities.reduce((maxSeqNum, activity) => {
+            const newAct = activity.toJSON();
+            return newAct.sequenceNum > maxSeqNum
+              ? newAct.sequenceNum
+              : maxSeqNum;
+          }, 0);
+          newSeqNum++;
+        }
+      },
+    );
     return Activity.create({
-      sequenceNum: activityInfo.sequenceNum,
+      sequenceNum: newSeqNum,
       description: activityInfo.description,
       result: activityInfo.result,
       status: activityInfo.status,
@@ -53,6 +67,56 @@ export namespace ActivityController {
       where: {
         id,
       },
+    });
+  }
+
+  export function getActivitiesByRequestId(
+    id: number,
+  ): Promise<SelectedActivity[]> {
+    return Activity.findAll({
+      where: {
+        requestId: id,
+      },
+    }).then((activities) => activities.map((activity) => activity.toJSON()));
+  }
+
+  export function shiftSequenceNumber(
+    activityId: number,
+    direction: "left" | "right",
+  ): void {
+    Activity.findOne({
+      where: {
+        id: activityId,
+      },
+    }).then((activity) => {
+      if (!activity) {
+        throw new Error("Activity not found");
+      }
+      const selectedActivity: SelectedActivity = activity.toJSON();
+      const currentSequenceNum = selectedActivity.sequenceNum;
+
+      Activity.findOne({
+        where: {
+          requestId: selectedActivity.requestId,
+          sequenceNum:
+            direction === "left"
+              ? currentSequenceNum - 1
+              : currentSequenceNum + 1,
+        },
+      }).then((activityToShift) => {
+        if (!activityToShift) {
+          return;
+        }
+        activityToShift.set("sequenceNum", currentSequenceNum);
+        activity.set(
+          "sequenceNum",
+          direction === "left"
+            ? currentSequenceNum - 1
+            : currentSequenceNum + 1,
+        );
+        activityToShift.save();
+        activity.save();
+      });
     });
   }
 
