@@ -2,16 +2,19 @@
 import Cookies from "js-cookie";
 import { BsBoxArrowRight } from "react-icons/bs";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function NavBar() {
+  const router = useRouter();
+  const pathName = usePathname();
   const logout = () => {
     document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    window.location.href = "/login";
+    router.push("/login");
   };
   const isLoggedIn = !!Cookies.get("auth");
   if (!isLoggedIn) {
-    if (window.location.pathname !== "/login") {
-      window.location.href = "/login";
+    if (pathName !== "/login") {
+      router.push("/login");
     }
     return null;
   }

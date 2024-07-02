@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { serialize } from "cookie";
+import { useRouter } from "next/navigation";
 
 interface Props {
   loginAction: any;
@@ -10,6 +11,7 @@ export default function LoginForm({ loginAction }: Props) {
   const [uname, setUname] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -26,7 +28,7 @@ export default function LoginForm({ loginAction }: Props) {
         sameSite: "strict",
         secure: process.env.NODE_ENV !== "development",
       });
-      window.location.href = "/";
+      router.push("/");
     } catch (error: any) {
       setError(error.message);
       console.error(error);
