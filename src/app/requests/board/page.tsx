@@ -1,7 +1,7 @@
 import RequestBoard from "@/components/requests/RequestBoard";
-// import { Tester } from "@/database/tester";
+import { Tester } from "@/database/tester";
 
 export default function RequestBoardPage() {
-  // Tester.syncAllModelsAndTest();
+  Tester.syncAllModelsAndTest();
   return <RequestBoard />;
 }
