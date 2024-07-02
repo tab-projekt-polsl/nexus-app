@@ -16,6 +16,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  "use client";
   Tester.syncAllModelsAndTest();
   return (
     <html lang="en" className="bg-base-200">

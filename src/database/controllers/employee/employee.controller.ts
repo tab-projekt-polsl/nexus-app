@@ -28,6 +28,7 @@ export namespace EmployeeController {
     uname: string,
     password: string,
   ): Promise<LoginResponse> {
+    "use server";
     const employee = await Employee.findOne({ where: { uname } });
     if (!employee) {
       throw new Error("Employee not found");
@@ -42,11 +43,11 @@ export namespace EmployeeController {
 
     const token = await new SignJWT({
       username: employee.getDataValue("uname"),
-      role: employee.getDataValue("role"), // Set your own roles
+      role: employee.getDataValue("role"),
     })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
-      .setExpirationTime("30s") // Set your own expiration time
+      .setExpirationTime("30s")
       .sign(getJwtSecretKey());
 
     if (!token) {
@@ -64,6 +65,22 @@ export namespace EmployeeController {
       token: token,
     };
   }
+
+  export async function loginEmployeeAction(formData: FormData) {
+    "use server";
+    const uname = formData.get("uname") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      const { token } = await EmployeeController.loginEmployee(uname, password);
+
+      return { token };
+    } catch (error) {
+      console.error(error);
+      throw new Error("Invalid credentials");
+    }
+  }
+
   export async function createEmployee(
     employeeInfo: CreateEmployeeDTO,
   ): Promise<Employee> {
@@ -101,6 +118,17 @@ export namespace EmployeeController {
     value: any,
   ): Promise<[affectedCount: number]> {
     "use server";
+    if (field === "password") {
+      const hashedPassword = await bcrypt.hash(value, 10);
+      return Employee.update(
+        { password: hashedPassword },
+        {
+          where: {
+            id,
+          },
+        },
+      );
+    }
     return Employee.update(
       { [field]: value },
       {
@@ -145,17 +173,16 @@ export namespace EmployeeController {
     });
   }
 
-  export function getEmployee(id: number): Promise<SelectedEmployee> {
-    return Employee.findOne({
+  export async function getEmployee(id: number): Promise<SelectedEmployee> {
+    const employee = await Employee.findOne({
       where: {
         id: id,
       },
-    }).then((employee) => {
-      if (!employee) {
-        throw new Error("Employee not found");
-      }
-      return employee.toJSON();
     });
+    if (!employee) {
+      throw new Error("Employee not found");
+    }
+    return employee.toJSON();
   }
 
   export async function getEmployeeByRequestId(
