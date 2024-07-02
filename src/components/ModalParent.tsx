@@ -44,7 +44,9 @@ export function ModalParent({
         {buttonText}
       </button>
       <dialog ref={modalRef} className="modal min-h-60 z-50">
-        <div className="modal-box">{showChildren && children}</div>
+        <div className="modal-box w-full min-w-max">
+          {showChildren && children}
+        </div>
 
         <form method="dialog" className="modal-backdrop">
           <button onClick={onModalClose}>close</button>

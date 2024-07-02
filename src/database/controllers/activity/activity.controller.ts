@@ -32,6 +32,7 @@ export namespace ActivityController {
   export async function createActivity(
     activityInfo: CreateActivityDTO,
   ): Promise<Activity> {
+    "use server";
     if (!activityInfo) {
       throw new Error("Activity info is required");
     }
@@ -159,10 +160,11 @@ export namespace ActivityController {
     return RequestController.getRequest(activity.getDataValue("requestId"));
   }
 
-  export function shiftSequenceNumber(
+  export async function shiftSequenceNumber(
     activityId: number,
     direction: "left" | "right",
-  ): void {
+  ) {
+    "use server";
     Activity.findOne({
       where: {
         id: activityId,
@@ -197,6 +199,15 @@ export namespace ActivityController {
         activity.save();
       });
     });
+  }
+
+  export async function shiftSequenceNumberAction(formData: FormData) {
+    "use server";
+    await shiftSequenceNumber(
+      parseInt(formData.get("id") as string, 10),
+      formData.get("direction") as "left" | "right",
+    );
+    revalidatePath(`/activities/board`);
   }
 
   /**
@@ -273,6 +284,7 @@ export namespace ActivityController {
         where: {
           requestId: requestId,
         },
+        order: [["sequenceNum", "ASC"]],
       })
     ).map((activity) => activity.toJSON());
   }
