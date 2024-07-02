@@ -146,6 +146,46 @@ export namespace ActivityController {
     return RequestController.getRequest(activity.getDataValue("requestId"));
   }
 
+  export function shiftSequenceNumber(
+    activityId: number,
+    direction: "left" | "right",
+  ): void {
+    Activity.findOne({
+      where: {
+        id: activityId,
+      },
+    }).then((activity) => {
+      if (!activity) {
+        throw new Error("Activity not found");
+      }
+      const selectedActivity: SelectedActivity = activity.toJSON();
+      const currentSequenceNum = selectedActivity.sequenceNum;
+
+      Activity.findOne({
+        where: {
+          requestId: selectedActivity.requestId,
+          sequenceNum:
+            direction === "left"
+              ? currentSequenceNum - 1
+              : currentSequenceNum + 1,
+        },
+      }).then((activityToShift) => {
+        if (!activityToShift) {
+          return;
+        }
+        activityToShift.set("sequenceNum", currentSequenceNum);
+        activity.set(
+          "sequenceNum",
+          direction === "left"
+            ? currentSequenceNum - 1
+            : currentSequenceNum + 1,
+        );
+        activityToShift.save();
+        activity.save();
+      });
+    });
+  }
+
   /**
    *
    * @param id id to delete
