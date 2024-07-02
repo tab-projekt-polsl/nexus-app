@@ -16,7 +16,7 @@ export default function EmployeeUpdater({
   const [fname, setFname] = useState(employee.fname);
   const [lname, setLname] = useState(employee.lname);
   const [role, setRole] = useState(employee.role.toString());
-
+  const [password, setPassword] = useState("");
   return (
     <div className="card-body">
       <h2 className="card-title">
@@ -68,6 +68,18 @@ export default function EmployeeUpdater({
               </option>
             ))}
           </select>
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Password</span>
+          </label>
+          <input
+            type="password"
+            name="password"
+            className="input input-bordered"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
         <div className="form-control mt-6">
           <button type="submit" className="btn btn-outline">
