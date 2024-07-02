@@ -5,21 +5,28 @@ import type { SelectedEmployee } from "@/database/controllers/employee/employee.
 import type { SelectedRequest } from "@/database/controllers/request/request.dto";
 import moment from "moment";
 import { useState } from "react";
+import { SelectedActivity } from "@/database/controllers/activity/activity.dto";
+import { act } from "react-dom/test-utils";
+import SequenceShifter from "@/components/SequenceShifter";
 
 interface Props {
   className?: string;
   updateAction: any;
+  shiftActivityAction: any;
   request: SelectedRequest;
   objects: SelectedObject[];
   employees: SelectedEmployee[];
+  activities: SelectedActivity[];
 }
 
 export default function RequestUpdater({
   className,
   updateAction,
+  shiftActivityAction,
   request,
   objects,
   employees,
+  activities,
 }: Props) {
   const [dateFinCancel, setDateFinCancel] = useState<string>(
     moment(request.dateFinCancel).format("YYYY-MM-DD"),
@@ -106,6 +113,17 @@ export default function RequestUpdater({
           Edit Request
         </button>
       </form>
+      <div className="flex flex-row overflow-x-scroll">
+        {activities.map((activity: SelectedActivity, index) => (
+          <SequenceShifter
+            shiftAction={shiftActivityAction}
+            elementText={"A-" + activity.id}
+            elementId={activity.id}
+            key={index}
+            className=""
+          />
+        ))}
+      </div>
     </div>
   );
 }

@@ -11,6 +11,9 @@ import { ObjectController } from "@/database/controllers/object/object.controlle
 import getObjects = ObjectController.getObjects;
 import { EmployeeController } from "@/database/controllers/employee/employee.controller";
 import getEmployees = EmployeeController.getEmployees;
+import { ActivityController } from "@/database/controllers/activity/activity.controller";
+import getActivitiesByRequestId = ActivityController.getActivitiesByRequestId;
+import shiftSequenceNumberAction = ActivityController.shiftSequenceNumberAction;
 
 interface Props {
   request: SelectedRequest;
@@ -50,6 +53,8 @@ export default async function RequestCard({
             request={request}
             objects={await getObjects()}
             employees={await getEmployees()}
+            activities={await getActivitiesByRequestId(request.id)}
+            shiftActivityAction={shiftSequenceNumberAction}
           />
         </ModalParent>
       </div>
