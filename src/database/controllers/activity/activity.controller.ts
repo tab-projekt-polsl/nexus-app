@@ -64,7 +64,7 @@ export namespace ActivityController {
   export async function createActivityAction(formData: FormData) {
     "use server";
     await createActivity({
-      sequenceNum: parseInt(formData.get("sequenceNum") as string, 10),
+      // sequenceNum: parseInt(formData.get("sequenceNum") as string, 10),
       description: formData.get("description") as string,
       result: formData.get("result") !== "0",
       status: formData.get("status") as ACTIVITY_STATUS_ENUM,

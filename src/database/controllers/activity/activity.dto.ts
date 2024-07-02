@@ -12,7 +12,7 @@ export enum ACTIVITY_TYPE_ENUM {
 }
 
 export interface CreateActivityDTO {
-  sequenceNum: number;
+  // sequenceNum: number;
   description: string;
   result: boolean;
   status: ACTIVITY_STATUS_ENUM;
@@ -37,6 +37,7 @@ export enum ACTIVITY_FIELDS {
 
 export interface SelectedActivity extends CreateActivityDTO {
   id: number;
+  sequenceNum: number;
   requestId: number;
   employeeId: number;
 }

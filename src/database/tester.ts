@@ -45,7 +45,7 @@ export namespace Tester {
 
   export function addSampleActivities(): void {
     ActivityController.createActivity({
-      sequenceNum: 1,
+      // sequenceNum: 1,
       description: "First activity",
       result: true,
       status: ACTIVITY_STATUS_ENUM.DONE,
@@ -56,7 +56,7 @@ export namespace Tester {
       employeeId: 21,
     });
     ActivityController.createActivity({
-      sequenceNum: 2,
+      // sequenceNum: 2,
       description: "Second activity",
       result: false,
       status: ACTIVITY_STATUS_ENUM.TODO,
@@ -67,7 +67,7 @@ export namespace Tester {
       employeeId: 21,
     });
     ActivityController.createActivity({
-      sequenceNum: 3,
+      // sequenceNum: 3,
       description: "Third activity",
       result: false,
       status: ACTIVITY_STATUS_ENUM.IN_PROGRESS,
