@@ -112,7 +112,13 @@ export default function RequestUpdater({
           Edit Request
         </button>
       </form>
-      <div className="flex flex-row overflow-x-scroll">
+      {activities.length > 0 ? (
+        <div className="text-center mt-4">Rearrange Activities</div>
+      ) : (
+        ""
+      )}
+
+      <div className="flex flex-row overflow-y-clip justify-center">
         {activities.map((activity: SelectedActivity, index) => (
           <SequenceShifter
             shiftAction={shiftActivityAction}
