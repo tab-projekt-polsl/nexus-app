@@ -12,6 +12,14 @@ export interface CreateEmployeeDTO {
   password: string;
 }
 
+export enum EMPLOYEE_FIELDS {
+  FNAME = "fname",
+  LNAME = "lname",
+  ROLE = "role",
+  UNAME = "uname",
+  PASSWORD = "password",
+}
+
 export interface SelectedEmployee extends CreateEmployeeDTO {
   id: number;
 }

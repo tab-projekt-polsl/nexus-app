@@ -2,6 +2,8 @@
 
 import DbObject from "@/database/models/object";
 import type { CreateObjectDTO, SelectedObject } from "./object.dto";
+import { OBJECT_FIELDS } from "./object.dto";
+import { revalidatePath } from "next/cache";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ObjectController {
@@ -20,9 +22,10 @@ export namespace ObjectController {
 
   export async function updateObject(
     id: number,
-    field: keyof CreateObjectDTO,
+    field: any,
     value: any,
   ): Promise<[affectedCount: number]> {
+    "use server";
     return DbObject.update(
       { [field]: value },
       {
@@ -33,6 +36,20 @@ export namespace ObjectController {
     );
   }
 
+  export async function updateObjectAction(formData: FormData) {
+    "use server";
+    const fields = Object.values(OBJECT_FIELDS) as string[];
+    for (const field of fields) {
+      if (formData.has(field)) {
+        await updateObject(
+          parseInt(formData.get("id") as string, 10),
+          field,
+          formData.get(field),
+        );
+      }
+    }
+    revalidatePath(`/management`);
+  }
   /**
    *
    * @param id id to delete

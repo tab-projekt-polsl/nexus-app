@@ -82,23 +82,14 @@ export namespace ActivityController {
 
   export async function updateActivityAction(formData: FormData) {
     "use server";
-    if (!(formData.get("isUpdate") === "yes")) {
-      const response = updateActivity(
-        parseInt(formData.get("id") as string, 10),
-        formData.get("field") as keyof CreateActivityDTO,
-        formData.get("value"),
-      );
-      console.log(formData.get("value"));
-      revalidatePath(`/activities/board`);
-      return response;
-    } else {
-      const fields = Object.values(ACTIVITY_FIELDS) as string[];
-      for (const field of fields) {
+    const fields = Object.values(ACTIVITY_FIELDS) as string[];
+    for (const field of fields) {
+      if (formData.get(field)) {
         await updateActivity(formData.get("id"), field, formData.get(field));
       }
-      revalidatePath(`/activities/board`);
-      return true;
     }
+    revalidatePath(`/activities/board`);
+    return true;
   }
 
   export async function getActivitiesByEmployeeId(

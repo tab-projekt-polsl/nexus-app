@@ -64,22 +64,14 @@ export namespace RequestController {
 
   export async function updateRequestAction(formData: FormData) {
     "use server";
-    if (!(formData.get("isUpdate") === "yes")) {
-      const response = updateRequest(
-        formData.get("id"),
-        formData.get("field"),
-        formData.get("value"),
-      );
-      revalidatePath(`/requests/board`);
-      return response;
-    } else {
-      const fields = Object.values(REQUEST_FIELDS) as string[];
-      for (const field of fields) {
+    const fields = Object.values(REQUEST_FIELDS) as string[];
+    for (const field of fields) {
+      if (formData.get(field)) {
         await updateRequest(formData.get("id"), field, formData.get(field));
       }
-      revalidatePath(`/requests/board`);
-      return true;
     }
+    revalidatePath(`/requests/board`);
+    return true;
   }
 
   /**

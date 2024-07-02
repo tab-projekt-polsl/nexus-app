@@ -1,13 +1,11 @@
 import React from "react";
-import { ACTIVITY_STATUS_ENUM } from "@/database/controllers/activity/activity.dto";
 import { ModalParent } from "@/components/ModalParent";
-import ActivityDetails from "@/components/activities/ActivityDetails";
-import ResultSwitcher from "@/components/ResultSwitcher";
-import StatusSwitcher from "@/components/StatusSwitcher";
-import { ActivityController } from "@/database/controllers/activity/activity.controller";
-import { SelectedClient } from "@/database/controllers/client/client.dto";
-import { SelectedObject } from "@/database/controllers/object/object.dto";
-import { SelectedEmployee } from "@/database/controllers/employee/employee.dto";
+import type { SelectedEmployee } from "@/database/controllers/employee/employee.dto";
+import { EMPLOYEE_ROLE } from "@/database/controllers/employee/employee.dto";
+import EmployeeDetails from "@/components/management/employee/EmployeeDetails";
+import EmployeeUpdater from "@/components/management/employee/EmployeeUpdater";
+import { EmployeeController } from "@/database/controllers/employee/employee.controller";
+import updateEmployeeAction = EmployeeController.updateEmployeeAction;
 
 interface Props {
   employee: SelectedEmployee;
@@ -23,24 +21,33 @@ export default function EmployeeCard({ employee, className, focus }: Props) {
         className
       }
     >
-      <div className="card-body flex-1 flex-row justify-between">
+      <div className="card-body flex-1 flex-row justify-between group">
         <div className="flex-col">
           <h2 className="card-title">
             {employee.fname + " " + employee.lname}
           </h2>
+          <p className="text-gray-400">{employee.role}</p>
         </div>
+        <ModalParent
+          buttonText="Edit"
+          initialState={focus}
+          className="transition-all ease-in-out opacity-0 group-hover:opacity-100 text-gray-500"
+        >
+          <EmployeeUpdater
+            employee={employee}
+            updateAction={updateEmployeeAction}
+            roles={Object.values(EMPLOYEE_ROLE) as string[]}
+          />
+        </ModalParent>
       </div>
-      <div className="card-actions justify-end mb-5 mr-5">
-        {/*<ModalParent buttonText="Edit" initialState={focus}>*/}
-        {/*  <EmployeeUpdater employee={employee} />*/}
-        {/*</ModalParent>*/}
-        {/*<ModalParent*/}
-        {/*  buttonText="Details"*/}
-        {/*  className="btn btn-primary"*/}
-        {/*  initialState={focus}*/}
-        {/*>*/}
-        {/*  <EmployeeDetails employee={employee.id} />*/}
-        {/*</ModalParent>*/}
+      <div className="card-actions justify-center mb-5">
+        <ModalParent
+          buttonText="Details"
+          className="btn btn-ghost"
+          initialState={focus}
+        >
+          <EmployeeDetails employeeId={employee.id} />
+        </ModalParent>
       </div>
     </div>
   );

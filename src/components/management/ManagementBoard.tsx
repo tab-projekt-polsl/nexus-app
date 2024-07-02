@@ -27,7 +27,7 @@ export default async function ManagementBoard({ focusOn, focusItem }: Props) {
           <h2 className="card-title mb-5">Clients</h2>
           <ModalParent
             buttonText="Add Client"
-            className="btn btn-outline w-10/12"
+            className="btn btn-outline w-10/12 mb-2"
           >
             <ClientCreator createAction={createClientAction} />
           </ModalParent>
@@ -46,6 +46,12 @@ export default async function ManagementBoard({ focusOn, focusItem }: Props) {
       <div className="card min-w-96 bg-base-300 shadow-xl m-5">
         <div className="card-body items-center">
           <h2 className="card-title mb-5">Employees</h2>
+          <ModalParent
+            buttonText="Add Employee"
+            className="btn btn-outline w-10/12 mb-2"
+          >
+            <ClientCreator createAction={createClientAction} />
+          </ModalParent>
           {employees.map((employee: SelectedEmployee, index) => (
             <EmployeeCard
               className=""
@@ -60,6 +66,12 @@ export default async function ManagementBoard({ focusOn, focusItem }: Props) {
       <div className="card min-w-96 bg-base-300 shadow-xl m-5">
         <div className="card-body items-center">
           <h2 className="card-title mb-5">Objects</h2>
+          <ModalParent
+            buttonText="Add Object"
+            className="btn btn-outline w-10/12 mb-2"
+          >
+            <ClientCreator createAction={createClientAction} />
+          </ModalParent>
           {objects.map((object, index) => (
             <ObjectCard
               className=""

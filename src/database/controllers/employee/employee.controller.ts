@@ -4,9 +4,11 @@ import Employee from "@/database/models/employee";
 import * as bcrypt from "bcrypt";
 import { jwtVerify, SignJWT } from "jose";
 import type { CreateEmployeeDTO, SelectedEmployee } from "./employee.dto";
+import { EMPLOYEE_FIELDS } from "./employee.dto";
 import { getJwtSecretKey } from "@/libs/auth";
 import type { LoginResponse } from "./login-response.dto";
 import Request from "@/database/models/request";
+import { revalidatePath } from "next/cache";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace EmployeeController {
@@ -77,9 +79,10 @@ export namespace EmployeeController {
 
   export async function updateEmployee(
     id: number,
-    field: keyof CreateEmployeeDTO,
+    field: any,
     value: any,
   ): Promise<[affectedCount: number]> {
+    "use server";
     return Employee.update(
       { [field]: value },
       {
@@ -88,6 +91,23 @@ export namespace EmployeeController {
         },
       },
     );
+  }
+
+  export async function updateEmployeeAction(formData: FormData) {
+    "use server";
+    const fields = Object.values(EMPLOYEE_FIELDS) as string[];
+    for (const field of fields) {
+      if (formData.get(field)) {
+        console.log(field);
+        console.log(formData.get(field));
+        await updateEmployee(
+          parseInt(formData.get("id") as string, 10),
+          field,
+          formData.get(field),
+        );
+      }
+    }
+    revalidatePath(`/management`);
   }
 
   /**

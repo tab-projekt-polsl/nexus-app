@@ -63,22 +63,14 @@ export namespace ClientController {
   // server action with form
   export async function updateClientAction(formData: FormData) {
     "use server";
-    if (!(formData.get("isUpdate") === "yes")) {
-      const response = updateClient(
-        formData.get("id"),
-        formData.get("field"),
-        formData.get("value"),
-      );
-      revalidatePath(`/management`);
-      return response;
-    } else {
-      const fields = Object.values(CLIENT_FIELDS) as string[];
-      for (const field of fields) {
+    const fields = Object.values(CLIENT_FIELDS) as string[];
+    for (const field of fields) {
+      if (formData.get(field)) {
         await updateClient(formData.get("id"), field, formData.get(field));
       }
-      revalidatePath(`/management`);
-      return true;
     }
+    revalidatePath(`/management`);
+    return true;
   }
 
   export async function getRequestsByClientId(
