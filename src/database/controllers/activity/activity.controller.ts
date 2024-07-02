@@ -26,7 +26,7 @@ export namespace ActivityController {
     if (!activityInfo) {
       throw new Error("Activity info is required");
     }
-    let newSeqNum = 0;
+    let newSeqNum = 1;
     Activity.findAll({ where: { requestId: activityInfo.requestId } }).then(
       (activities) => {
         if (activities.length > 0) {
