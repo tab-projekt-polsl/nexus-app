@@ -5,8 +5,7 @@ import type { SelectedEmployee } from "@/database/controllers/employee/employee.
 import type { SelectedRequest } from "@/database/controllers/request/request.dto";
 import moment from "moment";
 import { useState } from "react";
-import { SelectedActivity } from "@/database/controllers/activity/activity.dto";
-import { act } from "react-dom/test-utils";
+import type { SelectedActivity } from "@/database/controllers/activity/activity.dto";
 import SequenceShifter from "@/components/SequenceShifter";
 
 interface Props {
