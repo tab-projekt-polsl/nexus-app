@@ -12,6 +12,7 @@ export default function NavBar() {
     router.push("/login");
   };
   const isLoggedIn = !!Cookies.get("auth");
+  const role = Cookies.get("role");
   if (!isLoggedIn) {
     if (pathName !== "/login") {
       router.push("/login");
@@ -27,15 +28,21 @@ export default function NavBar() {
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
-          <li>
-            <Link href="/requests/board">Requests</Link>
-          </li>
-          <li>
-            <Link href="/activities/board">Activities</Link>
-          </li>
-          <li>
-            <Link href="/management">Management</Link>
-          </li>
+          {role === "admin" || role === "manager" ? (
+            <li>
+              <Link href="/requests/board">Requests</Link>
+            </li>
+          ) : null}
+          {role === "admin" || role === "manager" || role === "worker" ? (
+            <li>
+              <Link href="/activities/board">Activities</Link>
+            </li>
+          ) : null}
+          {role === "admin" || role === "manager" ? (
+            <li>
+              <Link href="/management">Management</Link>
+            </li>
+          ) : null}
         </ul>
       </div>
       <div className="flex-1 justify-end text-xl mr-4">

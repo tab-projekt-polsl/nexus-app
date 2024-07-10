@@ -21,8 +21,20 @@ export default function LoginForm({ loginAction }: Props) {
     formData.append("password", password);
 
     try {
-      const { token } = await loginAction(formData);
+      const { token, role, id } = await loginAction(formData);
       document.cookie = serialize("auth", token, {
+        path: "/",
+        maxAge: 3600, // 1 hour
+        sameSite: "strict",
+        secure: process.env.NODE_ENV !== "development",
+      });
+      document.cookie = serialize("role", role, {
+        path: "/",
+        maxAge: 3600, // 1 hour
+        sameSite: "strict",
+        secure: process.env.NODE_ENV !== "development",
+      });
+      document.cookie = serialize("id", id, {
         path: "/",
         maxAge: 3600, // 1 hour
         sameSite: "strict",

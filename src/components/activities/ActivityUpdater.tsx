@@ -5,6 +5,7 @@ import type { SelectedEmployee } from "@/database/controllers/employee/employee.
 import type { SelectedActivity } from "@/database/controllers/activity/activity.dto";
 import moment from "moment";
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 interface Props {
   className?: string;
@@ -30,7 +31,8 @@ export default function ActivityUpdater({
   const [requestId, setRequestId] = useState<number>(activity.requestId);
   const [employeeId, setEmployeeId] = useState<number>(activity.employeeId);
   const [actType, setActType] = useState<string>(activity.actType);
-
+  const role = Cookies.get("role");
+  const id = Cookies.get("id");
   return (
     <div className="card-body h-full">
       <h2 className="card-title">Edit Activity A-{activity.id}</h2>
@@ -120,11 +122,17 @@ export default function ActivityUpdater({
             required
           >
             <option value="">Select an employee</option>
-            {employees.map((employee: SelectedEmployee, index) => (
-              <option key={index} value={employee.id}>
-                {employee.fname + " " + employee.lname}
-              </option>
-            ))}
+            {employees.map((employee: SelectedEmployee, index) =>
+              role !== "worker" ? (
+                <option key={index} value={employee.id}>
+                  {employee.fname + " " + employee.lname}
+                </option>
+              ) : id === employee.id.toString() ? (
+                <option key={index} value={employee.id}>
+                  {employee.fname + " " + employee.lname}
+                </option>
+              ) : null,
+            )}
           </select>
         </label>
         <button className={"btn btn-outline " + className} type="submit">

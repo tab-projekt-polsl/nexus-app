@@ -5,6 +5,7 @@ import { ACTIVITY_STATUS_ENUM } from "@/database/controllers/activity/activity.d
 import { ModalParent } from "@/components/ModalParent";
 import { RequestController } from "@/database/controllers/request/request.controller";
 import { EmployeeController } from "@/database/controllers/employee/employee.controller";
+import { cookies } from "next/headers";
 import ActivityCreator from "@/components/activities/ActivityCreator";
 
 interface Props {
@@ -13,6 +14,9 @@ interface Props {
 
 export default async function ActivityBoard({ focusOn }: Props) {
   const statuses = Object.values(ACTIVITY_STATUS_ENUM) as string[];
+  const cookieJar = cookies();
+  const role = cookieJar.get("role")?.value;
+  const id = cookieJar.get("id")?.value;
 
   const fetchRequests = async () => {
     return await Promise.all(
@@ -44,15 +48,25 @@ export default async function ActivityBoard({ focusOn }: Props) {
         >
           <div className="card-body items-center">
             <h2 className="card-title mb-5">{statuses[index]}</h2>
-            {activities.map((activity: SelectedActivity) => (
-              <ActivityCard
-                className=""
-                key={activity.id}
-                activity={activity}
-                /* eslint-disable-next-line eqeqeq */
-                focus={focusOn == activity.id}
-              />
-            ))}
+            {activities.map((activity: SelectedActivity) =>
+              role !== "worker" ? (
+                <ActivityCard
+                  className=""
+                  key={activity.id}
+                  activity={activity}
+                  /* eslint-disable-next-line eqeqeq */
+                  focus={focusOn == activity.id}
+                />
+              ) : id === activity.employeeId.toString() ? (
+                <ActivityCard
+                  className=""
+                  key={activity.id}
+                  activity={activity}
+                  /* eslint-disable-next-line eqeqeq */
+                  focus={focusOn == activity.id}
+                />
+              ) : null,
+            )}
           </div>
         </div>
       ))}
