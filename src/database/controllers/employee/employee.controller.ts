@@ -1,7 +1,7 @@
 // Makes me do a module and then doesn't like the module either >:(
 
 import Employee from "@/database/models/employee";
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { jwtVerify, SignJWT } from "jose";
 import type {
   CreateEmployeeDTO,
