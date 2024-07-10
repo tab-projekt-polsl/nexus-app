@@ -28,12 +28,12 @@ export default function NavBar() {
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
-          {role === "admin" || role === "manager" ? (
+          {role === "manager" ? (
             <li>
               <Link href="/requests/board">Requests</Link>
             </li>
           ) : null}
-          {role === "admin" || role === "manager" || role === "worker" ? (
+          {role === "manager" || role === "worker" ? (
             <li>
               <Link href="/activities/board">Activities</Link>
             </li>
