@@ -1,7 +1,7 @@
 // Makes me do a module and then doesn't like the module either >:(
 
 import Employee from "@/database/models/employee";
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { jwtVerify, SignJWT } from "jose";
 import type {
   CreateEmployeeDTO,
@@ -72,9 +72,12 @@ export namespace EmployeeController {
     const password = formData.get("password") as string;
 
     try {
-      const { token } = await EmployeeController.loginEmployee(uname, password);
+      const { token, employee } = await EmployeeController.loginEmployee(
+        uname,
+        password,
+      );
 
-      return { token };
+      return { token, role: employee.role, id: employee.id };
     } catch (error) {
       console.error(error);
       throw new Error("Invalid credentials");

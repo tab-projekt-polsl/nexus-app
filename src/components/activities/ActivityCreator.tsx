@@ -2,6 +2,7 @@
 
 import type { SelectedEmployee } from "@/database/controllers/employee/employee.dto";
 import type { SelectedRequest } from "@/database/controllers/request/request.dto";
+import Cookies from "js-cookie";
 
 interface Props {
   className?: string;
@@ -18,6 +19,8 @@ export default function ActivityCreator({
   employees,
   activityTypes,
 }: Props) {
+  const id = Cookies.get("id");
+  const role = Cookies.get("role");
   return (
     <div className="card-body h-full">
       <h2 className="card-title">Create Activity</h2>
@@ -54,7 +57,7 @@ export default function ActivityCreator({
             <option value="">Select a request</option>
             {requests.map((request: SelectedRequest, index) => (
               <option key={index} value={request.id}>
-                R-{request.id}
+                R-{request.id} {request.description}
               </option>
             ))}
           </select>
@@ -74,11 +77,17 @@ export default function ActivityCreator({
           <label className="label-text">Select employee</label>
           <select className="select select-bordered" name="employeeId" required>
             <option value="">Select an employee</option>
-            {employees.map((employee: SelectedEmployee, index) => (
-              <option key={index} value={employee.id}>
-                {employee.fname + " " + employee.lname}
-              </option>
-            ))}
+            {employees.map((employee: SelectedEmployee, index) =>
+              role !== "worker" ? (
+                <option key={index} value={employee.id}>
+                  {employee.fname + " " + employee.lname}
+                </option>
+              ) : id === employee.id.toString() ? (
+                <option key={index} value={employee.id}>
+                  {employee.fname + " " + employee.lname}
+                </option>
+              ) : null,
+            )}
           </select>
         </label>
         <button className={"btn " + className} type="submit">
